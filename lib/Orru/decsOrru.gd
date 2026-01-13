@@ -1,5 +1,7 @@
 IsHapCongruenceSubgroup:=NewFilter("IsHapCongruenceSubgroup");;
 DeclareGlobalFunction("HAP_GenericCongruenceSubgroup");
+DeclareGlobalFunction("FiniteProjectiveLine");
+DeclareGlobalFunction("FiniteProjectivePlane");
 DeclareOperation("HAPCongruenceSubgroupGamma0",[IsInt,IsInt]);
 DeclareOperation("HAPCongruenceSubgroupTree",[IsHapCongruenceSubgroup]);
 
@@ -9,7 +11,7 @@ InstallMethod( ViewObj,
 10000000,  #Ensures that this method is chosen
 function(G)
 Print(G!.name," of ",G!.fam);
- end);
+end);
 
 InstallMethod( PrintObj,
 "for HapCongruenceSubgroup",
@@ -17,5 +19,5 @@ InstallMethod( PrintObj,
 100000000, #Ensures that this method is chosen
 function(G)
 Print(G!.name," of ",G!.fam);
- end);
+end);
 
