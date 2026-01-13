@@ -187,4 +187,83 @@ end);
 ###################################################################
 ###################################################################
 
+#SL3
 
+InstallMethod( HAPCongruenceSubgroupGamma0,
+"for SL(3,Z)",
+[IsInt, IsInt],
+function(n,m)
+    local G,sl,membership,membershipLight, ProjPlane, CosetRep, CosetPos, MatrixInSL3_Hermite;
+    
+    if not (n = 3 and m > 0) then
+        TryNextMethod();
+    fi;
+
+    sl := SL(3, Integers);
+    G  := HAP_GenericCongruenceSubgroup("SL", 3, Integers, m);
+
+    membership := function(g)
+        if not g in sl then
+            return false;
+        fi;
+        if g[2][1] mod m <> 0 then
+            return false;
+        fi;
+        if g[3][1] mod m <> 0 then
+            return false;
+        fi;
+        return true;
+    end;
+
+    membershipLight := function(g)
+        if g[2][1] mod m <> 0 then
+            return false;
+        fi;
+        if g[3][1] mod m <> 0 then
+            return false;
+        fi;
+        return true;
+    end;
+
+    G!.membership := membership;
+    G!.membershipLight := membershipLight;
+    G!.level := m;
+    G!.name := "CongruenceSubgroupGamma0";
+
+    MatrixInSL3_Hermite := function(v)
+        local Herm;
+        Herm := HermiteNormalFormIntegerMatTransform([[v[1]],[v[2]],[v[3]]]);
+        return Inverse(Herm!.rowtrans);
+    end;
+
+    ProjPlane := FiniteProjectivePlane(m);
+    CosetPos := function(g)
+        local v, vv, U, u, w;
+        v := [g[1][1], g[2][1], g[3][1]];
+        vv := List(v, x -> x mod m);
+        U := Units(Integers mod m);
+        for u in U do
+            w := List(vv, x -> (Int(u)*x) mod m);
+            if w in ProjPlane.Reps then
+                return Position(ProjPlane.Reps,w);
+            fi;
+        od;
+    end;
+    CosetRep := function(i)
+    local x,y,z;
+        x := ProjPlane.Reps[i][1];
+        y := ProjPlane.Reps[i][2];
+        z := ProjPlane.Reps[i][3];
+
+        return MatrixInSL3_Hermite([x,y,z]);
+    end;
+
+    G!.cosetRep := CosetRep;
+    G!.cosetPos := CosetPos;
+
+    G := ObjectifyWithAttributes(G, TypeObj(G),
+        IsIntegerMatrixGroup, true,
+        IsFinite, false);
+
+    return G;
+end);
