@@ -17,6 +17,8 @@ DeclareGlobalFunction( "QuadraticNumber" );
 DeclareGlobalFunction( "IsHapQuadraticInteger" );
 DeclareGlobalFunction("BianchiGcomplex");
 DeclareGlobalFunction("HAP_InverseOpFunction");
+DeclareGlobalFunction("GComplexToRegularCWComplex");
+DeclareGlobalFunction("ResolutionIsomorphismGroup");
 
 #####################################################################
 #####################################################################
@@ -219,4 +221,4 @@ Display3DUnimodularPairs(Y!.ring,Y!.unimodularPairsSingletons,lst);
 #####################################################################
 
 
-
+DeclareOperation("QuadraticNumberToCyclotomic",[IsHapQuadraticNumber]);

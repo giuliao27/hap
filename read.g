@@ -233,6 +233,8 @@ ReadPackageHap( "lib/Congruence/bianchiComplex.gi");
 ReadPackageHap( "lib/Congruence/resAbelianBianchiSubgroup.gi");
 ReadPackageHap( "lib/Congruence/qnf_nc.gi");
 ReadPackageHap( "lib/Congruence/notused.gi");
+ReadPackageHap( "lib/Congruence/resIsomorphicGroup.gi");
+ReadPackageHap( "lib/Congruence/GCWquotient.gi");
 
 ##################### ORRU #####################################
 ReadPackageHap( "lib/Orru/initOrru.gi");

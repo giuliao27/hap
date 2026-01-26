@@ -16,6 +16,39 @@ end);
 
 #####################################################################
 #####################################################################
+InstallMethod(QuadraticNumberToCyclotomic,
+  "converts a quadratic number to a cyclotomic",
+    [IsHapQuadraticNumber],
+    function( x )
+    return x!.rational + Sqrt(x!.bianchiInteger)*x!.irrational;
+end);
+#####################################################################
+#####################################################################
+
+#####################################################################
+#####################################################################
+InstallOtherMethod(QuadraticNumberToCyclotomic,
+  "converts a List of quadratic numbers to a List of cyclotomics",
+    [IsList],
+    function( L )
+    return List(L,QuadraticNumberToCyclotomic);;
+end);
+#####################################################################
+#####################################################################
+
+#####################################################################
+#####################################################################
+InstallOtherMethod(QuadraticNumberToCyclotomic,
+  "converts a Matrix of quadratic numbers to a Matrix of cyclotomics",
+    [IsMatrix],
+    function( M )
+    return List(M,QuadraticNumberToCyclotomic);;
+end);
+#####################################################################
+#####################################################################
+
+#####################################################################
+#####################################################################
 InstallGlobalFunction (QuadraticNumberConjugate,
 function(x)
 if IsRat(x) then return x; fi;
@@ -161,6 +194,7 @@ local M, gens, G, g, x, gx, bool, i, j;
 if IsBound(GG!.MultiplicationTable) then return GG!.MultiplicationTable; fi;
 
 gens:=GeneratorsOfGroup(GG);
+if Length(gens)=0 then gens:=[One(GG)]; fi;
 G:=[gens[1]^0];
 bool:=true;
 

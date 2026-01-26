@@ -339,7 +339,7 @@ end;
 InstallGlobalFunction(BianchiGcomplex,
 function(d)
 local R,P,OQ,Y,Dimension,Stabilizer,action,STABS,stb,rot,rotREC,Boundary,
-rep,ELTS,adjust,xx,I,
+rep,ELTS,adjust,xx,I,H,
 G,K,S,T,i,V,n,B,BB,k,BoundaryRec,TMP, EquivSpheres, gens,omega,x,y,M,a;
 
 if not IsInt(d) then
@@ -392,7 +392,7 @@ G:=HAP_BianchiRepresentativesAction(Y,n,i,i);
    od;
    Add(GENS,-One(GENS[1]));
    ###################################
-STABS[1][i]:= Group(GENS); STABS[1][i]!.Order:=infinity; STABS[1][i]!.Size:=infinity;
+STABS[1][i]:= Group(GENS); STABS[1][i]!.Order:=infinity; STABS[1][i]!.Size:=infinity; SetIsFinite(STABS[1][i],false); IsBianchiAbelianGroup(STABS[1][i]);
 return infinity; fi;
 G:=HAP_BianchiRepresentativesAction(Y,n,i,i);
 
@@ -710,6 +710,14 @@ G!.tree:=true;
 SetGeneratorsOfGroup(G,gens);
 SetSize(G,infinity);
 SetOrder(G,infinity);
+
+H:=RingOfIntegers(QuadraticNumberField(d));;
+H:=QuadraticIdeal(H,1);;
+H:=HAP_CongruenceSubgroupGamma0(H);;
+H!.tree:=true;;
+H:=GroupHomomorphismByFunction(G,H,QuadraticNumberToCyclotomic);
+
+
 R:= Objectify(HapNonFreeResolution,
             rec(
             dimension:=Dimension,
@@ -717,6 +725,7 @@ R:= Objectify(HapNonFreeResolution,
             homotopy:=fail,
             elts:=ELTS,
             group:=G,
+            isomorphismToGroupCyclotomicMats:=H,
             stabilizer:=Stabilizer,
             action:=action,
             ring:=Y!.ring,

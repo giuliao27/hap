@@ -516,6 +516,16 @@ return  [[one,zero],[zero,one]];
 end);
 #####################################################################
 
+######################################################################
+InstallOtherMethod( OneMutable,
+    "one mutable in 2x2 matrix group",
+    [ IsHap2x2matrix],
+100000000,
+function(M)
+return  1*One(M);
+end);
+#####################################################################
+
 #####################################################################
 InstallOtherMethod( InverseMutable,
     "inverse in 2x2 matrix group",

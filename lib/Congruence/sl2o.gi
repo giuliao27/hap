@@ -435,7 +435,8 @@ else
    local p;
    p:=x[2]*one; 
    if IsZero(p[2]) then return zero; fi;
-   p:=p*(p[2]^-1); return Position(Psorted,[p[1]![1],p[2]![1]]);
+   p:=p*(p[2]^-1); 
+   return PositionSorted(Psorted,[p[1]![1],p[2]![1]]);
    end;
    ##########################################
 fi;

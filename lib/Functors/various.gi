@@ -480,7 +480,7 @@ local x, h;
 
 if IsFinite(U) or IsBound(U!.gname)
 then return CanonicalRightCosetElement(U,g); fi;
-
+#IsHap2x2matrix(g); IsBianchiAbelianGroup(U);
 if g in U then return One(U); fi;
 
 if not IsBound(U!.ccelts) then U!.ccelts:=[]; fi;
