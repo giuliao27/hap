@@ -280,12 +280,16 @@ G!.IndexInSL2O:=Length(tree);
 G!.gens:=gens;
 G!.presentation:=P;
 
+if Length(tree)>1 then
 for s in [1..Length(gens)] do
 if not IsBound(PermRep[s][1]) then
 PermRep[s][1]:=Filtered([1..Length(PermRep[s])],i->not i in PermRep[s])[1];
 fi;
 od;
 G!.PermRep:=PermRep;
+else
+G!.IndexInSL2O:=1;
+fi;
 fi;
 end);
 ###################################################################

@@ -220,7 +220,7 @@ if not IsBound(I!.inverses) then
 I!.inverses:=[];;
 fi;
 
-pos:=Position(T, x mod I);
+pos:=PositionSorted(T, x mod I);
 
 if not IsBound(I!.inverses[pos]) then
 I!.inverses[pos]:=HAP_InverseOpFunction(I,T,x);
@@ -266,6 +266,7 @@ for j in [0..N[2][2]-1] do
 Add(cosetreps,i+j*D);
 od;od;
 
+cosetreps:=SSortedList(cosetreps);
 I!.RightTransversal:=cosetreps;
 return cosetreps;
 end);
@@ -325,6 +326,7 @@ od;
 leaves:=newleaves;
 od;
 
+cosetreps:=SSortedList(cosetreps);
 I!.RightTransversal:=cosetreps;
 return cosetreps;
 end);
