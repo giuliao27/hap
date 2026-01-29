@@ -2,6 +2,7 @@ IsHapCongruenceSubgroup:=NewFilter("IsHapCongruenceSubgroup");;
 DeclareGlobalFunction("HAP_GenericCongruenceSubgroup");
 DeclareGlobalFunction("FiniteProjectiveLine");
 DeclareGlobalFunction("FiniteProjectivePlane");
+DeclareGlobalFunction("HAP_SL3ZSubgroupTree_fast");
 DeclareOperation("HAPCongruenceSubgroupGamma0",[IsInt,IsInt]);
 DeclareOperation("HAPCongruenceSubgroupTree",[IsHapCongruenceSubgroup]);
 

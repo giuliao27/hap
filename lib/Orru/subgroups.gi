@@ -267,3 +267,11 @@ function(n,m)
 
     return G;
 end);
+
+InstallMethod(HAPCongruenceSubgroupTree,
+"Coset tree for congruence subgroup",
+[IsHapCongruenceSubgroup],
+function(G)
+if not (G!.dimension=3 and G!.ringOfIntegers=Integers) then TryNextMethod(); fi;
+HAP_SL3ZSubgroupTree_fast(G);
+end);
