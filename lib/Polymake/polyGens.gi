@@ -7,7 +7,7 @@ function(GG,v)
 local action, G, Points,
     vertices, CG, x, w, N,
     proj, poly, EdgeGenerators, tmp,
-    index, i, Faces, FacesFinal, p;
+    index, i, Faces, FacesFinal, p,toggle;
 
 
 if not (IsPermGroup(GG) or IsMatrixGroup(GG)) then 
@@ -87,48 +87,40 @@ od;
 ################ READ HASSE DIAGRAM #################################
 
 tmp := Polymake(poly,"F_VECTOR");
+
 index:=[1];                   #because Polymake has
 for i in [1..Length(tmp)] do  #discontinued the DIMS
 Add(index,index[i]+tmp[i]);   #property.
 od;                           #
 
 Faces := Polymake(poly,"FACES");
+
 if Length(Faces[1])=0 then
     Remove(Faces,1);
+    toggle:=false;
+else
+    Remove(Faces,Length(Faces));
+    Faces:=Reversed(Faces);
+    toggle:=true;
 fi;
 Faces:=List(Faces, f -> f-1);
 
-if Length(Faces[1])=1 then
-
 	FacesFinal:=[];
 	for i in [1..Length(index)-1] do
-    	Append(FacesFinal,[[index[i]..index[i+1]-1]]);
+        if toggle then
+    	   Append(FacesFinal,Reversed([[index[i]..index[i+1]-1]]));
+        else
+           Append(FacesFinal,[[index[i]..index[i+1]-1]]);
+        fi;
 	od;
 	Append(FacesFinal,[[index[i+1]]]);
 	FacesFinal:=(List(FacesFinal,x->List(x,i->Faces[i])));
 
-else
-
-	FacesFinal:=[[1..index[1]]];
-	for i in [1..Length(index)-1] do
-	    Append(FacesFinal,[[index[i]+1..index[i+1]]]);
-	od;
-	FacesFinal:=Reversed(List(FacesFinal,x->List(x,i->Faces[i])));
 	
-fi;
 
 #FUDGE: Sometimes Polymake lists vertices first, and sometimes last.
-#Above we assume that they are listed last. So we'll test and adjust
-#if necessary.
-if Length(FacesFinal[2][Length(FacesFinal[2])])=1 then
-for i in [2..Length(FacesFinal)-1] do
-   p:=Length(FacesFinal[i]);
-   FacesFinal[i-1]:=Reversed(FacesFinal[i-1]);
-   Add(FacesFinal[i-1],FacesFinal[i][p]);
-   Remove(FacesFinal[i],p);
-   FacesFinal[i-1]:=Reversed(FacesFinal[i-1]);
-od;
-fi;
+#Above we assume that they are listed last. 
+
 
 ############### HASSE DIAGRAM READ ##################################
 return rec(

@@ -10,7 +10,15 @@ w,NewLeaves,Leaves,i,e,f,n,k,g,b,x,T;
 #S is a set of elements in G=R!.group
 #N is a finite index subgroup of G=R!.group
 
+if not R!.group=N then
 T:=RightTransversal(R!.group,N);
+else
+x:=Group(One(R!.group));
+T:=RightTransversal(x,x);
+T!.group:=R!.group;
+T!.subgroup:=R!.group;
+T!.poscan:=function(a) return 1; end;
+fi;
 
 #######################################################
 dim:=0;

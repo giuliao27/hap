@@ -202,9 +202,16 @@ InstallMethod( ViewObj,
 "for HapCochainComplex",
  [IsHapCochainComplex],
  function(R)
+local c;
+c:=EvaluateProperty(R,"characteristic");
+if c>=0 then
  Print("Cochain complex of length ",
  EvaluateProperty(R,"length"), " in characteristic ",
- EvaluateProperty(R,"characteristic"), " . \n");
+ c, " . \n");
+else
+ Print("Cochain complex of length ",
+ EvaluateProperty(R,"length"), " over field of characteristic 0. \n");
+fi;
 
  end);
 

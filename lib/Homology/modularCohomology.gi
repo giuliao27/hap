@@ -63,7 +63,10 @@ Rels:=[];
 else
 BasisKerd2:=NullspaceMat(M1);
 prime:=EvaluateProperty(C,"characteristic");
+if prime>0 then
 one:=One(GF(prime));
+else one:=1;
+fi;
 BasisKerd2one:=one*BasisKerd2;
 
 M1:=0;

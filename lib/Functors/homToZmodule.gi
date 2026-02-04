@@ -2,6 +2,20 @@
 
 #####################################################################
 #####################################################################
+InstallGlobalFunction(HomToModuleOverCyclotomicField,
+function(R,rho)
+local C,pos;
+
+C:=HomToIntegralModule(R,rho);
+pos:=PositionProperty(C!.properties,x->x[1]="characteristic");
+C!.properties[pos][2]:=-1/2;
+return C;
+end);
+#####################################################################
+#####################################################################
+
+#####################################################################
+#####################################################################
 InstallGlobalFunction(HomToIntegralModule,
 function(arg)
 local R,f,ag, HomObj, HomArr,Image;
