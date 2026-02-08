@@ -275,3 +275,35 @@ function(G)
 if not (G!.dimension=3 and G!.ringOfIntegers=Integers) then TryNextMethod(); fi;
 HAP_SL3ZSubgroupTree_fast(G);
 end);
+
+InstallMethod(\in,
+"membership test for HapCongruenceSubgroups",
+[IsMatrix, IsHapCongruenceSubgroup and IsGroup],
+1000000,  #There must be a better way to ensure this method is used!
+function(g,G)
+return  G!.membership(g);
+end);
+
+InstallMethod(GeneratorsOfGroup,
+"Generating set for HapCongruenceSubgroups",
+[IsHapCongruenceSubgroup and IsGroup],
+1000000,  #There must be a better way to ensure this method is used!
+function(G)
+HAPCongruenceSubgroupTree(G);
+return  G!.GeneratorsOfMagmaWithInverses;
+end);
+
+InstallOtherMethod( RightTransversal,
+"Right transversal of congruence subgroup G in SL(3,Z)",
+[IsMatrixGroup, IsHapCongruenceSubgroup],
+1000000,
+function(G,H)
+    if not (H!.dimension = 3 and Name(G) = "SL(3,Integers)") then
+        TryNextMethod();
+    fi;
+
+    HAPCongruenceSubgroupTree(H);
+
+    return HAP_TransversalCongruenceSubgroups_SL3Z(G,H);
+end);
+
