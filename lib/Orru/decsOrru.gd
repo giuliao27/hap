@@ -4,11 +4,9 @@ DeclareGlobalFunction("HAP_GenericCongruenceSubgroup");
 DeclareGlobalFunction("FiniteProjectiveLine");
 DeclareGlobalFunction("FiniteProjectivePlane");
 DeclareGlobalFunction("HAP_SL3ZSubgroupTree_fast");
-DeclareGlobalFunction("HAP_TransversalCongruenceSubgroups_SL3Z");
 DeclareOperation("HAPCongruenceSubgroupGamma0",[IsInt,IsInt]);
 DeclareOperation("HAPCongruenceSubgroupTree",[IsHapCongruenceSubgroup]);
-DeclareOperation("in",[IsMatrix, IsHapCongruenceSubgroup and IsGroup]);
-DeclareOperation("RightTransversal",[IsMatrixGroup, IsHapCongruenceSubgroup]);
+DeclareGlobalFunction("Gamma0_SL3ZTopRationalHomology");
 
 InstallMethod( ViewObj,
 "for HapCongruenceSubgroup",

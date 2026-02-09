@@ -179,6 +179,7 @@ end;
 ####################
 
 if name="SL2Z" then G:=SL(2,Integers); fi;
+if name="SL3Zs" then G:=SL(3,Integers); fi;
 SetName(G,"matrix group");
 
 return Objectify(HapNonFreeResolution,

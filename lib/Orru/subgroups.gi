@@ -276,7 +276,7 @@ if not (G!.dimension=3 and G!.ringOfIntegers=Integers) then TryNextMethod(); fi;
 HAP_SL3ZSubgroupTree_fast(G);
 end);
 
-InstallMethod(\in,
+InstallOtherMethod(\in,
 "membership test for HapCongruenceSubgroups",
 [IsMatrix, IsHapCongruenceSubgroup and IsGroup],
 1000000,  #There must be a better way to ensure this method is used!
@@ -304,6 +304,7 @@ function(G,H)
 
     HAPCongruenceSubgroupTree(H);
 
-    return HAP_TransversalCongruenceSubgroups_SL3Z(G,H);
+    #return HAP_TransversalCongruenceSubgroups_SL3Z(G,H);
+    return HAP_TransversalCongruenceSubgroups(G,H);
 end);
 

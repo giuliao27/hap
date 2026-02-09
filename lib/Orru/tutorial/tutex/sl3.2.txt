@@ -1,0 +1,15 @@
+
+gap> G:=HAPCongruenceSubgroupGamma0(3,31);;
+gap> K:=ContractibleGcomplex("SL(3,Z)s");;
+gap> Y:=GComplexToRegularCWComplex(K,G);;
+gap> Y:=SimplifiedComplex(Y);
+Regular CW-complex of dimension 3
+
+gap> Size(Y);  #number of cells
+1353
+gap> Homology(Y,1);
+[ 5 ]
+gap> Homology(Y,2);
+[ 3 ]
+gap> Homology(Y,3);
+[ 0, 0, 0, 0 ]

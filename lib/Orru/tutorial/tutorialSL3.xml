@@ -1,0 +1,84 @@
+<Chapter><Heading>Congruence Subgroups of <M>SL_3(\mathbb Z)</M> (by Giulia Orr&#x00F9;)</Heading>
+
+	Let <M>\Gamma_0(N) = \{\left(\begin{array}{lll}
+		a_{11} &amp;a_{12} &amp;a_{13}\\
+		a_{21} &amp;a_{22} &amp;a_{23}\\
+		a_{31} &amp;a_{32} &amp;a_{33}
+		\end{array}\right) \in SL_3(\mathbb Z)\ \colon \ a_{21}\equiv a_{31} \equiv 0 \mod N \}.
+</M>
+        <Section><Heading>Rational homology in degree 3</Heading>
+			The homology <M>H_3(\Gamma_0(N),\mathbb Q)</M> was computed for all <M>10 \le N\le 209</M> and many <M>210\le N\le 250</M> in <Cite Key="vanderkallen"/>. The following command, based on the same method, computes <M>H_3(\Gamma_0(23),\mathbb Q) =\mathbb Q^{4}</M>.
+                
+<Example>
+	<#Include SYSTEM "../lib/Orru/tutorial/tutex/sl3.1.txt">
+</Example>
+
+<P/> This command can be used to extend the computations to  the following table of dimensions of <M>H_3(\Gamma_0(N),\mathbb Q)</M> for all <M>10\le N\le 300</M>. The table corrects slips in
+<Cite Key="vanderkallen"/> for <M>N=27,92,93,240,250</M>.
+
+<P/>
+<M>
+	\begin{array}{l|llllllllll}
+	x= &amp;0 &amp;1 &amp;2 &amp;3 &amp;4 &amp;5 &amp;6 &amp;7 &amp;8 &amp;9 \\
+        N &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;\hline\\
+	10+x &amp;2 &amp;2 &amp;7 &amp;0 &amp;4 &amp;4 &amp;6 &amp;2 &amp;7&amp;2 \\
+20+x &amp;9\\
+30+x\\
+40+x\\
+50+x\\
+60+x\\
+70+x\\
+80+x\\
+90+x\\
+100+x\\
+110+x\\
+120+x\\
+130+x\\
+140+x\\
+150+x\\
+160+x\\
+170+x\\
+180+x\\
+190+x\\
+200+x\\
+210+x\\
+220+x\\
+230+x\\
+240+x\\
+250+x\\
+260+x\\
+270+x\\
+280+x\\
+290+x\\
+300+x
+	\end{array}
+</M>
+
+        </Section>       
+
+	<Section><Heading>Integral homology modulo the primes <M>2</M> and <M>3</M></Heading>
+		The group <M>SL_3(\mathbb Z)</M> acts cellularly on a <M>3</M>-dimensional contractible
+			regular CW complex <M>K</M>
+				with each cell stabilizer group finite of order dividing <M>24</M>. Hence, the finite index subgroup
+<M>\Gamma_0(N)</M> also acts on this space.
+The quotient <M>Y=K/\Gamma_0(N)</M>
+	has integral homology <M>H_n(Y,\mathbb Z)</M> equal to the group homology <M>H_n(\Gamma_0(N),\mathbb Z)</M> modulo any <M>2</M>-torsion and <M>3</M>-torsion. For <M>N=31</M> the
+		following example computes <M>H_1(Y,\mathbb Z)=\mathbb Z_{5}</M>, <M>H_2(Y,\mathbb Z)=\mathbb Z_3</M> and <M>H_3(Y,\mathbb Z)= \mathbb Z^4</M>.
+
+<Example>
+<#Include SYSTEM "../lib/Orru/tutorial/tutex/sl3.2.txt">
+</Example>
+
+	</Section>
+
+	<Section><Heading>Low-dimensional integral homology</Heading>
+			The following example computes <M>H_1(\Gamma_0(31),\mathbb Z)= \mathbb Z_{30}</M>,
+	<M>H_2(\Gamma_0(31),\mathbb Z)= (\mathbb Z_2)^8 </M>,
+	<M>H_3(\Gamma_0(31),\mathbb Z)=(\mathbb Z_6)^2 \oplus (\mathbb Z_{12})^2
+	\oplus \mathbb Z^4</M>.
+
+<Example>
+<#Include SYSTEM "../lib/Orru/tutorial/tutex/sl3.3.txt">
+</Example>
+	</Section>
+</Chapter>

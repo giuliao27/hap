@@ -20,15 +20,21 @@ end);
 ###################################################################
 InstallGlobalFunction(HAP_TransversalCongruenceSubgroups,
 function(G,H)
-local tree,InH,v,p,g,s,n,q,vv,gens,
+local tree,InH,S,T,U,v,p,g,s,n,q,vv,gens,
       nodes, nodesinv, leaves, ambientGenerators, InLowDegreeNodesModH,
       one, poscan, nind ;
 
-ambientGenerators:=H!.ambientGenerators;
-one:=ambientGenerators[1]^0;
+####################
+S:=[[0,-1],[1,0]];;
+T:=[[1,1],[0,1]];
+U:=S*T;
+one:=IdentityMat(2);
+####################
+
+ambientGenerators:=[S,S*U];
 tree:=[1 ];
 cnt:=1;
-leaves:=NewDictionary(one,true,SL(2,Integers));
+leaves:=NewDictionary(S,true,SL(2,Integers));
 nodes:=[one];
 AddDictionary(leaves,one,1);
 

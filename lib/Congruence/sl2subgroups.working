@@ -3,7 +3,7 @@
 ###################################################################
 InstallGlobalFunction(HAP_GenericSL2ZSubgroup,
 function()
-local type, G, S, T, U;
+local type, G;
 
     type := NewType( FamilyObj([[[1,0],[0,1]]]),
                      IsGroup and
@@ -11,12 +11,6 @@ local type, G, S, T, U;
                      IsFinitelyGeneratedGroup and
                      IsMatrixGroup and
                      IsHapSL2ZSubgroup);
-
-####################
-S:=[[0,-1],[1,0]];;
-T:=[[1,1],[0,1]];
-U:=S*T;
-####################
 
 G:=rec(
     membership:= fail,
@@ -27,7 +21,6 @@ G:=rec(
     cosetRep:= fail,
     cosetPos:= fail,
     ugrp:= fail,
-    ambientGenerators:=[S,S*U],
     name:="Congruence subgroup");
 
 ObjectifyWithAttributes(G, type,
@@ -92,18 +85,24 @@ end);
 ###################################################################
 InstallGlobalFunction(HAP_SL2ZSubgroupTree_slow,
 function(G)
-local tree,InGmodU,Ugrp,v,p,g,s,n,q,vv,gens,
+local tree,InGmodU,Ugrp,S,T,U,v,p,g,s,n,q,vv,gens,
       nodes, leaves, ambientGenerators, InLowDegreeNodesModG, 
       one, genTriples, vertex2word, triple2word, csts;
 
-one:=(G!.ambientGenerators)^0;
-ambientGenerators:=G!.ambientGenerators;
+####################
+S:=[[0,-1],[1,0]];;
+T:=[[1,1],[0,1]];
+U:=S*T;
+one:=IdentityMat(2);
+####################
+
+ambientGenerators:=[S,S*U];
 Ugrp:=G!.ugrp;
 Ugrp:=Elements(Ugrp);
 tree:=[1 ];
 genTriples:=[];
 cnt:=1;
-leaves:=NewDictionary(one,true,SL(2,Integers));
+leaves:=NewDictionary(S,true,SL(2,Integers));
 nodes:=[one];
 AddDictionary(leaves,one,1);
 

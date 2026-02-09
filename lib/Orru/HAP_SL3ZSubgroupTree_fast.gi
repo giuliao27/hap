@@ -9,6 +9,7 @@ function(G)
     U := [[0,1,0], [1,0,0], [-1,-1,-1]];
     
     ambientGenerators := [S,T,U];
+G!.ambientGenerators:=ambientGenerators;
     one := IdentityMat(3); #to change? stabilizers to consider
     Ugrp := G!.ugrp;
     Ugrp := Elements( Ugrp );
