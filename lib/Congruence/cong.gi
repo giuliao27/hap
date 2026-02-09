@@ -7,28 +7,54 @@ InstallMethod(RightTransversal,
 function(H,HH);
 if not ( IsHapSL2ZSubgroup(H) or IsHapSL2ZSubgroup(HH)) then TryNextMethod(); fi;
 if H=SL(2,Integers) then
-#return HAP_RightTransversalSL2ZSubgroups(H,HH); #Works surprisingly well!
-return HAP_TransversalCongruenceSubgroups(H,HH);
+#return HAP_RightTransversalSL2ZSubgroups(H,HH)_alt; #Works surprisingly well!
+return HAP_TransversalCongruenceSubgroupInAmbientGroup(H,HH);
 else
-return HAP_RightTransversalSL2ZSubgroups_alt(H,HH);
+return HAP_RightTransversalSL2ZSubgroups(H,HH);
 fi;
 end);
 ############################################################
 ############################################################
+if false then
+####################################################################
+###################################################################
+InstallGlobalFunction(HAP_TransversalCongruenceSubgroupInAmbientGroup,
+function(G,H)
+local  nodes;
+
+nodes:=List([1..Length(H!.tree)],H!.vertex2word);
+nodes:=List(nodes,H!.cosetRep);
+
+return Objectify( NewType( FamilyObj( G ),
+                    IsHapRightTransversalSL2ZSubgroup and IsList and
+                    IsDuplicateFreeList and IsAttributeStoringRep ),
+          rec( group := G,
+               subgroup := H,
+               cosets:=nodes,
+               poscan:=H!.cosetPos ));
+
+end);
+####################################################################
+###################################################################
+fi;
 
 ###################################################################
 ###################################################################
-InstallGlobalFunction(HAP_TransversalCongruenceSubgroups,
+InstallGlobalFunction(HAP_TransversalCongruenceSubgroupInAmbientGroup,
 function(G,H)
 local tree,InH,v,p,g,s,n,q,vv,gens,
       nodes, nodesinv, leaves, ambientGenerators, InLowDegreeNodesModH,
-      one, poscan, nind ;
+      one, poscan, nind;
+
+#if IsBound(H!.vertex2word) then 
+#return HAP_TransversalCongruenceSubgroupInAmbientGroup(G,H);
+#fi;
 
 ambientGenerators:=H!.ambientGenerators;
 one:=ambientGenerators[1]^0;
 tree:=[1 ];
 cnt:=1;
-leaves:=NewDictionary(one,true,SL(2,Integers));
+leaves:=NewDictionary(one,true,G);
 nodes:=[one];
 AddDictionary(leaves,one,1);
 
@@ -37,6 +63,7 @@ InH:=H!.membershipLight;
 ###########################################
 InLowDegreeNodesModH:=function(g)
 local x,gg,B1,B2;
+
 gg:=g^-1;
 
 for x in nodes do
@@ -46,7 +73,6 @@ od;
 return false;
 end;
 ###########################################
-
 
 
 
@@ -97,7 +123,7 @@ end);
 
 ############################################################
 ############################################################
-InstallGlobalFunction(HAP_RightTransversalSL2ZSubgroups_alt,
+InstallGlobalFunction(HAP_RightTransversalSL2ZSubgroups,
 function(H,HH)
 local F, RHH, poscan, G; 
 

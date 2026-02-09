@@ -1,8 +1,10 @@
 IsHapCongruenceSubgroup:=NewFilter("IsHapCongruenceSubgroup");;
 IsHapRightTransversalSL3ZSubgroup:=NewFilter("IsHapRightTransversalSL3ZSubgroup");;
 DeclareGlobalFunction("HAP_GenericCongruenceSubgroup");
-DeclareGlobalFunction("FiniteProjectiveLine");
-DeclareGlobalFunction("FiniteProjectivePlane");
+DeclareOperation("FiniteProjectiveLine",[IsInt]);
+DeclareOperation("FiniteProjectivePlane",[IsInt]);
+DeclareGlobalFunction("HAP_FiniteProjectiveLineIntegers");
+DeclareGlobalFunction("HAP_FiniteProjectivePlaneIntegers");
 DeclareGlobalFunction("HAP_SL3ZSubgroupTree_fast");
 DeclareOperation("HAPCongruenceSubgroupGamma0",[IsInt,IsInt]);
 DeclareOperation("HAPCongruenceSubgroupTree",[IsHapCongruenceSubgroup]);

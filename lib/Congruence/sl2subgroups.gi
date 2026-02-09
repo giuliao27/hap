@@ -96,7 +96,7 @@ local tree,InGmodU,Ugrp,v,p,g,s,n,q,vv,gens,
       nodes, leaves, ambientGenerators, InLowDegreeNodesModG, 
       one, genTriples, vertex2word, triple2word, csts;
 
-one:=(G!.ambientGenerators)^0;
+one:=(G!.ambientGenerators[1])^0;
 ambientGenerators:=G!.ambientGenerators;
 Ugrp:=G!.ugrp;
 Ugrp:=Elements(Ugrp);
@@ -190,6 +190,7 @@ genTriples:=Concatenation(genTriples);
 genTriples:=List(genTriples,x->Minimum(x,x^-1));
 genTriples:=SSortedList(genTriples);
 G!.GeneratorsOfMagmaWithInverses:=genTriples;
+G!.vertex2word:=vertex2word;
 
 end);
 ###################################################################
@@ -283,6 +284,7 @@ genTriples:=List(genTriples,x->Minimum(x,x^-1));
 genTriples:=SSortedList(genTriples);
 G!.tree:=tree;
 G!.GeneratorsOfMagmaWithInverses:=genTriples;
+G!.vertex2word:=vertex2word;
 
 end);
 ###################################################################
@@ -427,7 +429,7 @@ end;
 ###################################################
 membershipLight:=function(g)
 if not g[2][1] mod n = 0  then return false;
-else return true; fi;
+else  return true; fi;
 end;
 ###################################################
 
@@ -443,7 +445,7 @@ else
 G!.index:=n*Product(List(SSortedList(Factors(n)), p->1+1/p));
 fi;
 
-if IsPrimeInt(n) then   #I need to extend this to none primes
+if IsPrimeInt(n) then   #I need to extend this to non primes
 ###########################################
 CosetPos:=function(g)
 if g[1][1] mod n =0 then return n+1; fi;

@@ -183,6 +183,8 @@ local Hg, HH;
 
 Hg:=H^g;
 HH:=Intersection(H,Hg);;
+HH!.ambientGroup:=H!.ambientGroup;
+HH!.ambientGenerators:=H!.ambientGenerators;
 return HH;
 end;
 #######################################

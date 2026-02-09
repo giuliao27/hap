@@ -3,7 +3,6 @@
 InstallGlobalFunction(HAP_SL3ZSubgroupTree_fast,
 function(G)
     local ambientGenerators, tree, InGmodU, Ugrp, S, T, U, v, p, g, s, n, q, vv, leaves, genTriples, generators, InLowDegreeNodesModG, csts, cnt, vertex2word, one, triple2word, i, j, u,c, a, b;
-
     S := [ [1,0,1], [0,-1,-1], [0,1,0] ];
     T := [ [0,1,0], [0,0,1], [1,0,0]];
     U := [[0,1,0], [1,0,0], [-1,-1,-1]];
@@ -77,5 +76,6 @@ G!.ambientGenerators:=ambientGenerators;
     genTriples := SSortedList( genTriples );
     G!.tree := tree;
     G!.GeneratorsOfMagmaWithInverses := genTriples;
+    G!.vertex2word:=vertex2word;
     return tree;
 end);

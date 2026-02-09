@@ -1,4 +1,30 @@
-InstallGlobalFunction(FiniteProjectiveLine,
+
+########################################################
+########################################################
+InstallMethod(FiniteProjectiveLine,
+"Finite projective line for the ring Z/nZ",
+[IsInt],
+function(n)
+return HAP_FiniteProjectiveLineIntegers(n);
+end);
+########################################################
+########################################################
+
+########################################################
+########################################################
+InstallMethod(FiniteProjectivePlane,
+"Finite projective plane for the ring Z/nZ",
+[IsInt],
+function(n)
+return HAP_FiniteProjectivePlaneIntegers(n);
+end);
+########################################################
+########################################################
+
+
+
+
+InstallGlobalFunction(HAP_FiniteProjectiveLineIntegers,
 function(n)
     local UnitEls, x, y, i, c, d, u, UnitsAction, Representatives, 
           RepOf, r, v, w, m, min;
@@ -40,7 +66,7 @@ function(n)
     );
 end);
 
-InstallGlobalFunction(FiniteProjectivePlane,
+InstallGlobalFunction(HAP_FiniteProjectivePlaneIntegers,
 function(n)
     local UnitEls, x, y, z, i, c, d, u, UnitsAction, Representatives, 
           RepOf, r, v, w, m, min;
@@ -86,3 +112,5 @@ function(n)
         RepOf:= RepOf
     );
 end);
+
+

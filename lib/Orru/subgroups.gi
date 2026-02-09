@@ -1,3 +1,4 @@
+
 ###################################################################
 ###################################################################
 InstallGlobalFunction(HAP_GenericCongruenceSubgroup,
@@ -42,19 +43,21 @@ function(family,integer,ring,ideal)
                      IsHapCongruenceSubgroup);
 
     G:=rec(
-        ringOfIntegers:=R,		#Matrices in the subgroup G lie in the ring R.
-        level:=I,                	#This ideal I<=R is used to define G. 
-        fam:=fam,			#The string "SL(n,R)".
-        dimension:=n,
-        membership:= fail,          #true if a matrix g lies in G.
-        membershipLight:=fail,      #true if a matrix g in SL(n,R) lies in G.
-        gens:=fail,			#"Nice" generating set for SL(n,R).
+        ringOfIntegers:=R,	#Matrices in the subgroup G lie in the ring R.
+        level:=I,              	#This ideal I<=R is used to define G. 
+        fam:=fam,		#A string like "SL(n,R)".
+        dimension:=n,		#A group of nxn matrices
+        ambientGroup:=fail,     #A supergroup like SL(n,Integers)
+        ambientGenerators:=fail, #Generators for the ambient group
+        membership:= fail,      #true if a matrix g lies in G.
+        membershipLight:=fail,  #true if a matrix g in SL(n,R) lies in G.
+        gens:=fail,		#"Nice" generating set for SL(n,R).
         tree:= fail,   		#Coset tree of G with respect to gens.
-        generators:= fail,		#Generating set for G. 
+        generators:= fail,	#Generating set for G. 
         index:=fail,   		#Index of G in SL(n,R).
-        cosetRep:= fail,            #CosetRep(g) represents g*G for g in SL(n,R).
-        cosetPos:= fail,	       	#cosetPos(g) is the position of the coset g*G. 
-        ugrp:= Group(mat),		#The trivial (or vertex stabilizer) group.
+        cosetRep:= fail,        #CosetRep(g) represents g*G for g in SL(n,R).
+        cosetPos:= fail,       	#cosetPos(g) is the position of the coset g*G. 
+        ugrp:= Group(mat),	#The trivial (or vertex stabilizer) group.
         name:="Congruence subgroup");
 
         ObjectifyWithAttributes(G, type,
@@ -127,8 +130,11 @@ function(n,m)
             fi;
         od;
     end;
-    CosetRep := function(i)
-    local a, c, b, d, gg;
+#    CosetRep := function(i)   #Should input a group element
+    CosetRep := function(g)
+    local a, c, b, d, gg,
+i;
+    i:=CosetPos(g);
         a := ProjLine.Reps[i][1];
         c := ProjLine.Reps[i][2];
         if a = 0 then
@@ -140,8 +146,8 @@ function(n,m)
         return [[a,b],[c,d]];
     end;
 
-    G!.cosetRep := CosetRep;
-    G!.cosetPos := CosetPos;
+    G!.cosetRep := CosetRep;   #SOMETHING WRONG WITH ONE OR BOTH
+    G!.cosetPos := CosetPos;   #CosetRep and  CosetPos
 
     G := ObjectifyWithAttributes(G, TypeObj(G),
         IsIntegerMatrixGroup, true,
@@ -182,7 +188,7 @@ function(G,H)
 
     HAPCongruenceSubgroupTree(H);
 
-    return HAP_TransversalCongruenceSubgroups(G,H);
+    return HAP_TransversalCongruenceSubgroupInAmbientGroup(G,H);
 end);
 ###################################################################
 ###################################################################
@@ -249,8 +255,11 @@ function(n,m)
             fi;
         od;
     end;
-    CosetRep := function(i)
-    local x,y,z;
+#    CosetRep := function(i)    #Should input a group element
+    CosetRep:=function(g)
+    local x,y,z,
+i;
+i:=CosetPos(g);
         x := ProjPlane.Reps[i][1];
         y := ProjPlane.Reps[i][2];
         z := ProjPlane.Reps[i][3];
@@ -258,8 +267,8 @@ function(n,m)
         return MatrixInSL3_Hermite([x,y,z]);
     end;
 
-    G!.cosetRep := CosetRep;
-    G!.cosetPos := CosetPos;
+    G!.cosetRep := CosetRep;  #Something worong with one or both of
+    G!.cosetPos := CosetPos;  #CosetRep and CosetPos
 
     G := ObjectifyWithAttributes(G, TypeObj(G),
         IsIntegerMatrixGroup, true,
@@ -304,7 +313,6 @@ function(G,H)
 
     HAPCongruenceSubgroupTree(H);
 
-    #return HAP_TransversalCongruenceSubgroups_SL3Z(G,H);
-    return HAP_TransversalCongruenceSubgroups(G,H);
+    return HAP_TransversalCongruenceSubgroupInAmbientGroup(G,H);
 end);
 

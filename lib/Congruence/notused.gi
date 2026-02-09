@@ -111,7 +111,7 @@ fi;
 
 ############################################################
 ############################################################
-InstallGlobalFunction(HAP_RightTransversalSL2ZSubgroups,
+InstallGlobalFunction(HAP_RightTransversalSL2ZSubgroups_alt,
 function(H,HH)
 local F, rels, S, T, G, FhomG, Q, gensQ, epi, ElementToWord,
 gensH, gensHH, QH, QHH, R, R1, R2, s, t, poscan, iso;

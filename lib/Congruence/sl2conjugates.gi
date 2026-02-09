@@ -130,7 +130,7 @@ fi;
 ###################################################################
 InstallGlobalFunction(HAP_IntersectionConjugatedCongruenceSubgroup,
 function(H,g)
-local  G, gg, membership, HH;
+local  G, gg, membership, HH, S, U, T;
 
 G:=HAP_GenericSL2ZConjugatedSubgroup();
 gg:=g^-1;
@@ -149,6 +149,13 @@ G!.membershipLight:=membership;
 #G!.sl2Zsubgroup:=HH;
 
 SetGeneratorsOfMagmaWithInverses(G,GeneratorsOfGroup(HH));
+
+####################
+S:=[[0,-1],[1,0]];;
+T:=[[1,1],[0,1]];
+U:=S*T;
+####################
+G!.ambientGenerators:= [S,S*U];
 return G;
 
 end);
