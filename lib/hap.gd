@@ -926,6 +926,8 @@ DeclareGlobalFunction("HAP_PrincipalCongruenceSubgroup");
 DeclareGlobalFunction("HAP_SL2TreeDisplay");
 DeclareGlobalFunction("HAP_CongruenceSubgroupGamma0");
 DeclareGlobalFunction("HAP_TransversalCongruenceSubgroups");
+DeclareGlobalFunction("HAP_TransversalCongruenceSubgroupInAmbientGroup");
+DeclareGlobalFunction("HAP_TransversalCongruenceSubgroupInAmbientGroupSlow");
 DeclareGlobalFunction("HAP_RightTransversalSL2ZSubgroups");
 DeclareGlobalFunction("HAP_RightTransversalSL2ZSubgroups_alt");
 DeclareGlobalFunction("AsWordInSL2Z");
