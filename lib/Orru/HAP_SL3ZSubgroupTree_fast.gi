@@ -2,20 +2,16 @@
 
 InstallGlobalFunction(HAP_SL3ZSubgroupTree_fast,
 function(G)
-    local ambientGenerators, tree, InGmodU, Ugrp, S, T, U, v, p, g, s, n, q, vv, leaves, genTriples, generators, InLowDegreeNodesModG, csts, cnt, vertex2word, one, triple2word, i, j, u,c, a, b;
-    S := [ [1,0,1], [0,-1,-1], [0,1,0] ];
-    T := [ [0,1,0], [0,0,1], [1,0,0]];
-    U := [[0,1,0], [1,0,0], [-1,-1,-1]];
+    local ambientGenerators, tree, InGmodU, Ugrp, v, p, g, s, n, q, vv, leaves, genTriples, generators, InLowDegreeNodesModG, csts, cnt, vertex2word, one, triple2word, i, j, u,c, a, b;
     
-    ambientGenerators := [S,T,U];
-G!.ambientGenerators:=ambientGenerators;
+    ambientGenerators:=G!.ambientGenerators;
     one := IdentityMat(3); #to change? stabilizers to consider
     Ugrp := G!.ugrp;
     Ugrp := Elements( Ugrp );
     tree := [  ];
     genTriples := [  ];
     cnt := 1;
-    leaves := NewDictionary( S, true, SL( 3, Integers ) );
+    leaves := NewDictionary( ambientGenerators[1], true, SL( 3, Integers ) );
     csts := [  ];
     csts[G!.cosetPos( one )] := 1;
     AddDictionary( leaves, one, G!.cosetPos( one ) );
@@ -76,6 +72,5 @@ G!.ambientGenerators:=ambientGenerators;
     genTriples := SSortedList( genTriples );
     G!.tree := tree;
     G!.GeneratorsOfMagmaWithInverses := genTriples;
-    G!.vertex2word:=vertex2word;
     return tree;
 end);

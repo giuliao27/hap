@@ -75,7 +75,8 @@ InstallMethod( HAPCongruenceSubgroupGamma0,
 "for integer n and integer m",
 [IsInt, IsInt],
 function(n,m)
-    local G, sl, membership, membershipLight, CosetRep, CosetPos, ProjLine;
+    local G, sl, membership, membershipLight, CosetRep, CosetPos, ProjLine,
+    CosetOfInt, S, T, U;
     if not (n=2 and m>0) then TryNextMethod(); fi;
 
     #The following implements G=Gamm0(m) < SL(2,Z)
@@ -104,6 +105,12 @@ function(n,m)
         fi;
     end;
     ###################################################
+    ####################
+    S:=[[0,-1],[1,0]];;
+    T:=[[1,1],[0,1]];
+    U:=S*T;
+    ####################
+
 
     G!.membership := membership;
     G!.membershipLight := membershipLight;
@@ -131,10 +138,8 @@ function(n,m)
         od;
     end;
 #    CosetRep := function(i)   #Should input a group element
-    CosetRep := function(g)
-    local a, c, b, d, gg,
-i;
-    i:=CosetPos(g);
+    CosetOfInt := function(i)
+    local a, c, b, d, gg;
         a := ProjLine.Reps[i][1];
         c := ProjLine.Reps[i][2];
         if a = 0 then
@@ -146,8 +151,14 @@ i;
         return [[a,b],[c,d]];
     end;
 
-    G!.cosetRep := CosetRep;   #SOMETHING WRONG WITH ONE OR BOTH
-    G!.cosetPos := CosetPos;   #CosetRep and  CosetPos
+    CosetRep:=function(g);
+        return CosetOfInt(CosetPos(g));
+    end;
+
+    G!.cosetRep := CosetRep;   
+    G!.cosetPos := CosetPos;   
+    G!.ambientGenerators:=[S,S*U];
+    G!.transversal:=List([1..Length(ProjLine.Reps)],i->CosetOfInt(i)^-1);
 
     G := ObjectifyWithAttributes(G, TypeObj(G),
         IsIntegerMatrixGroup, true,
@@ -199,7 +210,7 @@ InstallMethod( HAPCongruenceSubgroupGamma0,
 "for SL(3,Z)",
 [IsInt, IsInt],
 function(n,m)
-    local G,sl,membership,membershipLight, ProjPlane, CosetRep, CosetPos, MatrixInSL3_Hermite;
+    local G,sl,membership,membershipLight, ProjPlane, CosetRep, CosetPos, MatrixInSL3_Hermite, S, T, U, CosetOfInt;
     
     if not (n = 3 and m > 0) then
         TryNextMethod();
@@ -256,10 +267,8 @@ function(n,m)
         od;
     end;
 #    CosetRep := function(i)    #Should input a group element
-    CosetRep:=function(g)
-    local x,y,z,
-i;
-i:=CosetPos(g);
+    CosetOfInt:=function(i)
+    local x,y,z;
         x := ProjPlane.Reps[i][1];
         y := ProjPlane.Reps[i][2];
         z := ProjPlane.Reps[i][3];
@@ -267,8 +276,19 @@ i:=CosetPos(g);
         return MatrixInSL3_Hermite([x,y,z]);
     end;
 
-    G!.cosetRep := CosetRep;  #Something worong with one or both of
-    G!.cosetPos := CosetPos;  #CosetRep and CosetPos
+    CosetRep:=function(g);
+        return CosetOfInt(CosetPos(g));
+    end;
+
+    S := [ [1,0,1], [0,-1,-1], [0,1,0] ];
+    T := [ [0,1,0], [0,0,1], [1,0,0]];
+    U := [[0,1,0], [1,0,0], [-1,-1,-1]];
+
+
+    G!.cosetRep := CosetRep;  
+    G!.cosetPos := CosetPos;  
+    G!.ambientGenerators:=[S,T,U];
+    G!.transversal:=List([1..Length(ProjPlane.Reps)],i->CosetOfInt(i)^-1);
 
     G := ObjectifyWithAttributes(G, TypeObj(G),
         IsIntegerMatrixGroup, true,

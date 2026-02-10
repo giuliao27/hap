@@ -190,7 +190,6 @@ genTriples:=Concatenation(genTriples);
 genTriples:=List(genTriples,x->Minimum(x,x^-1));
 genTriples:=SSortedList(genTriples);
 G!.GeneratorsOfMagmaWithInverses:=genTriples;
-G!.vertex2word:=vertex2word;
 
 end);
 ###################################################################
@@ -284,7 +283,6 @@ genTriples:=List(genTriples,x->Minimum(x,x^-1));
 genTriples:=SSortedList(genTriples);
 G!.tree:=tree;
 G!.GeneratorsOfMagmaWithInverses:=genTriples;
-G!.vertex2word:=vertex2word;
 
 end);
 ###################################################################
@@ -410,7 +408,7 @@ end);
 ###################################################################
 InstallGlobalFunction(HAP_CongruenceSubgroupGamma0,
 function(n)
-local G,sl,membership,membershipLight,CosetRep, CosetPos,g,x,y,a;
+local G,sl,membership,membershipLight,CosetRep, CosetPos,transversal,g,x,y,a;
 
 if IsRing(n) then
     return HAP_CongruenceSubgroupGamma0Ideal(n);
@@ -459,8 +457,14 @@ if g[1][1] mod n=0 then return [[0,-1],[1,0]]; fi;
 return [[1,0],[(g[2][1]*g[1][1]^-1) mod n,1]];
 end;
 ###########################################
+
+###########################################
+transversal:=List([0..n-1],i->[[1,0],[i,1]]^-1);
+transversal:=Concatenation(transversal, [  [[0,-1],[1,0]]^-1 ]);
+###########################################
 G!.cosetRep:=CosetRep;
 G!.cosetPos:=CosetPos;
+G!.transversal:=transversal;
 fi;
 
 return G;
