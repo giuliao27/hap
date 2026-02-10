@@ -90,6 +90,7 @@ Add(CosetReps,one*[[0,-1],[1,0]]);
 G!.cosetRep:=CosetRep;
 G!.cosetReps:=CosetReps;
 G!.cosetPos:=CosetPos;
+G!.transversal:=List(CosetReps,x->x^-1);
 fi;
 
 return G;
@@ -423,6 +424,9 @@ if not (H!.name="CongruenceSubgroupGamma0" and IsPrime(I)) then
    end;
    ##########################################
 else
+return HAP_TransversalCongruenceSubgroupInAmbientGroup(G,H ); 
+
+   ######Redundant code#####################
    RR:=[]; P:=[];
    for t in RightTransversal(I) do
       Add(RR,[[1,0],[t,1]]);
@@ -442,7 +446,7 @@ else
    p:=p*(p[2]^-1); 
    return PositionSorted(Psorted,[p[1]![1],p[2]![1]]);
    end;
-   ##########################################
+   ############end of redundant code#########
 fi;
 
 return Objectify( NewType( FamilyObj( G ),
