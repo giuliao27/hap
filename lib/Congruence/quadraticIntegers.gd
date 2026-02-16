@@ -1,3 +1,11 @@
+#This file contains declarations for:
+#  Quadratic number fields (cyclotomis)
+#  HAP quadratic numbers (not cyclotomics, rather pairs [x,y] representing 
+#                                                            x + y*Sqrt(-d)
+#  constructions for Swan's method for fundamental domains for Bianchi groups
+
+
+#CYCLOTOMIC QUADRATIC NUMBER FIELDS
 DeclareFilter("QuadraticNF");
 DeclareProperty("IsQuadraticNumberField",QuadraticNF);
 DeclareFilter("RingOfQuadraticIntegers");
@@ -19,6 +27,9 @@ DeclareGlobalFunction("BianchiGcomplex");
 DeclareGlobalFunction("HAP_InverseOpFunction");
 DeclareGlobalFunction("GComplexToRegularCWComplex");
 DeclareGlobalFunction("ResolutionIsomorphismGroup");
+
+
+#NON_CYCLOTOMIC REPRESENTATIONS OF QUADRATIC NUMBERS
 
 #####################################################################
 #####################################################################
@@ -109,8 +120,10 @@ R:= RingWithOneByGenerators(  [ QuadraticNumber( 0,1,d) ]  );
 #####################################################################
 #####################################################################
 DeclareGlobalFunction( "QuadraticNumberConjugate" );
+DeclareOperation("QuadraticNumberToCyclotomic",[IsHapQuadraticNumber]);
 
 
+#SWAN'S FUNDAMENTAL DOMAINS
 DeclareGlobalFunction("DisplayUnimodularPairs");
 DeclareGlobalFunction("Display3DUnimodularPairs");
 DeclareGlobalFunction("Display3DUnimodularPairs_extra");
@@ -221,4 +234,3 @@ Display3DUnimodularPairs(Y!.ring,Y!.unimodularPairsSingletons,lst);
 #####################################################################
 
 
-DeclareOperation("QuadraticNumberToCyclotomic",[IsHapQuadraticNumber]);

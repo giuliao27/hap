@@ -183,7 +183,6 @@ return fail;  #This should never happen
 end;
 #####################################################
 
-G!.tree:=tree;
 Unbind(tree[1]);
 genTriples:=List(genTriples,x->triple2word(x));
 genTriples:=Concatenation(genTriples);
@@ -271,7 +270,7 @@ local u,uu,g,q,c;
 for u in Ugrp do
 c:=x[4]^-1*u*vertex2word(G!.cosetPos(x[4]));
 #if c in G then return c; fi;
-if G!.membership(c) then return c; fi;
+if G!.membershipLight(c) then return c; fi;
 od; 
 return fail;  #This should never happen
 end;

@@ -5,6 +5,6 @@ DeclareGlobalFunction("TreeOfResolutionsToSL2Zcomplex");
 DeclareGlobalFunction("SL2ZResolution");
 DeclareGlobalFunction("SL2ZResolution_alt");
 DeclareGlobalFunction("ConjugateSL2ZGroup");
-DeclareGlobalFunction("CongruenceSubgroup");
+DeclareOperation("CongruenceSubgroupGamma0",[IsPosInt,IsPosInt]);
 DeclareGlobalFunction("HAP_BaryCentricSubdivisionGComplex");
 DeclareOperation("BarycentricSubdivision",[IsHapNonFreeResolution]);

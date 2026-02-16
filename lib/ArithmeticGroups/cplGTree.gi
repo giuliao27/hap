@@ -42,7 +42,7 @@ local t1,t2,
         else 
             H:=SL2Z(1/m);
             K:=ConjugateSL2ZGroup(H,[[1,0],[0,p]]);
-            Gamma:=CongruenceSubgroup(m,p);
+            Gamma:=CongruenceSubgroupGamma0(m,p);
         fi;
         G:=SL2Z(1/(m*p));
         ID:=Group(One(G));

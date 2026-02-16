@@ -1,3 +1,7 @@
+#This file declares categories and operations for computing with O/I
+#where O is the ring of polynomials of a quadratic number field K
+#and I is an ideal in O. Throughout, K is a field of cyclotomic mumbers
+#and thus not so efficient for certain computations.
 
 DeclareCategory( "IsHAPRingModIdealObj", IsScalar );
 cat:= CategoryCollections( IsHAPRingModIdealObj );;

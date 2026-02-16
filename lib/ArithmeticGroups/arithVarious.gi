@@ -55,7 +55,9 @@ end);
 ##  Output: The congruence subgroup of SL2Z(1/m) of level p
 ##             
 ##
-InstallGlobalFunction(CongruenceSubgroup,
+InstallMethod(CongruenceSubgroupGamma0,
+"Gamma0(p) in SL2Z(Z[1/m])",
+[IsPosInt,IsPosInt],
 function(m,p)
 local H,K,G;
     if m=1 then 

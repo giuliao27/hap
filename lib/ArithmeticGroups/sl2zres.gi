@@ -28,7 +28,7 @@ local l,p,k,
     RK!.group:=ConjugateSL2ZGroup(H,[[1,0],[0,p]]);
 
 ## Create resolution for Gamma
-    Gamma:=CongruenceSubgroup(k,p);
+    Gamma:=CongruenceSubgroupGamma0(k,p);
     RGamma:=ResolutionFiniteSubgroup(RH,Gamma);
     SetName(Gamma,"Gamma");
 	

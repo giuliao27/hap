@@ -83,6 +83,7 @@ fi;
 ################# CONGRUENE COMMANDS #######################################
 #if not IsPackageMarkedForLoading("congruence","0.0") then
 #CongruenceSubgroupGamma0:=function(m) return fail; end;
+#DeclareCategory( "IsCongruenceSubgroup", IsMatrixGroup );
 #fi;
 ################# CONGRUENCE COMMANDS DONE ###############################
 
@@ -235,6 +236,8 @@ ReadPackageHap( "lib/Congruence/qnf_nc.gi");
 ReadPackageHap( "lib/Congruence/notused.gi");
 ReadPackageHap( "lib/Congruence/resIsomorphicGroup.gi");
 ReadPackageHap( "lib/Congruence/GCWquotient.gi");
+
+ReadPackageHap( "lib/CongruenceGroups/initCongruenceGroups.gi");
 
 ##################### ORRU #####################################
 ReadPackageHap( "lib/Orru/initOrru.gi");

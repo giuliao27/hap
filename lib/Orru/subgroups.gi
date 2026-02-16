@@ -132,8 +132,8 @@ function(n,m)
         U := Units(Integers mod m);
         for u in U do
             w := List(vv, x -> (Int(u)*x) mod m);
-            if w in ProjLine.Reps then
-                return Position(ProjLine.Reps,w);
+            if w in ProjLine.Reps then                  #Takes all the time
+                return Position(ProjLine.Reps,w);       #
             fi;
         od;
     end;
