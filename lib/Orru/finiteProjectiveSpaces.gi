@@ -24,7 +24,7 @@ end);
 
 
 
-InstallGlobalFunction(HAP_FiniteProjectiveLineIntegers,
+InstallGlobalFunction(HAP_FiniteProjectiveLineIntegers_alt,
 function(n)
     local UnitEls, x, y, i, c, d, u, UnitsAction, Representatives, 
           RepOf, r, v, w, m, min;
@@ -111,6 +111,47 @@ function(n)
         Reps := Set(Representatives),
         RepOf:= RepOf
     );
+end);
+
+InstallGlobalFunction(HAP_FiniteProjectiveLineIntegers,
+function(n)
+    local Rep, i, factors, Znd, d, z, p, l, toFill, t;
+
+    Rep := [[0,1]];
+
+    for i in [1..n] do
+        Add(Rep,[1,i-1]);
+    od;
+    
+    factors := List(DivisorsInt(n));
+    Remove(factors,1);
+    Remove(factors);
+
+    for p in factors do
+        d := n/p;
+
+        Znd := [0..d-1];
+        toFill := [];
+
+        for z in Znd do
+            if Gcd(p,z,d) = 1 then
+                Add(toFill, z);
+            fi;
+        od;
+
+        t := 1;
+        while not IsEmpty(toFill) do
+            if Gcd(p,t) = 1 then
+                if (t mod d) in toFill then
+                    Add(Rep,[p,t]);
+                    Remove(toFill, Position(toFill,t mod d));
+                fi;
+            fi;
+            t := t+1;
+        od;
+    od;
+
+    return Rep;
 end);
 
 
