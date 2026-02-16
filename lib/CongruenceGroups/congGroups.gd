@@ -140,3 +140,30 @@ DeclareAttribute( "CosetRepFunction", IsHAPCongruenceSubgroup );
 ## whose construction depends on the given generating set for GG. 
 DeclareAttribute( "AmbientCosetTree", IsHAPCongruenceSubgroup );
 
+############################################################################
+##
+## 
+     IsHAPRightTransversalCongruenceSubgroup:=NewFilter("IsHAPRightTransversalCongruenceSubgroup");;
+
+     HAPRightTransversalCongruenceSubgroup:=NewType(FamilyObj(rec()),
+                             IsHAPRightTransversalCongruenceSubgroup
+                             and IsList
+                              );;
+
+     InstallMethod( ViewObj,
+     "for HAPRightTransversalCongruenceSubgroup",
+     [IsHAPRightTransversalCongruenceSubgroup],
+     function(R)
+     Print("Transversal of ");
+     ViewObj(R!.subgroup); Print(" in "); ViewObj(R!.group);Print(" . \n");
+     end);
+
+     InstallMethod( PrintObj,
+     "for HAPRightTransversalCongruenceSubgroup",
+     [IsHAPRightTransversalCongruenceSubgroup],
+     function(R)
+     Print("Transversal of ");
+     ViewObj(R!.subgroup); Print(" in "); ViewObj(R!.group);Print(" . \n");
+     end);
+
+

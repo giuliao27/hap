@@ -14,6 +14,7 @@
      function(G)
      local ind, n;
         n:=LevelOfCongruenceSubgroup(G);
+        if n<>2 then TryNextMethod(); fi;
         if n=1 then
            ind:=1;
         else

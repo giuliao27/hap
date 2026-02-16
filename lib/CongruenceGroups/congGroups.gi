@@ -99,10 +99,11 @@ InstallMethod( CongruenceSubgroupGamma0, "for integer matrix group and positive 
     ##################################################
     ##
     ## Remaining components to be computed in other functions.
-    G!.cosetPos:=fail;
-    G!.cosetRep:=fail;
-    G!.transversal:=fail;
-    G!.tree:=fail;
+    AmbientTransversal(G);
+    CosetPosFunction(G); #A generic method will be used to construct the
+    CosetRepFunction(G); #these two functions except for cases with a
+                         #bespoke implementation.
+                         #cosetPos and poscan are used interchangably.
 
     return G;
         end);
@@ -170,8 +171,15 @@ InstallMethod( PrincipalCongruenceSubgroup,
     ###################################################
     G!.membership:=membership;
     G!.ambientMembership:=ambientMembership;
-    CosetPosFunction(G);
-    CosetRepFunction(G);
+    
+    ###################################################
+    ##
+    ## Remaining components to be computer elsewhere.
+    AmbientTransversal(G);
+    CosetPosFunction(G); #A generic method will be used to construct the
+    CosetRepFunction(G); #these two functions except for cases with a
+                         #bespoke implementation.
+                         #cosetPos and poscan are used interchangably.
 
     return G;
         end);
@@ -243,14 +251,14 @@ InstallMethod( IsSubset,
      end);
 
 
-
 ##########################################################################
 ##
 ## AmbientCosetTree( <G> )
 ##
 ## Returns a tree representing the cosets of G in the ambient group GG. This
 ## method assumes very little of G. For specific cases of interest a faster 
-## method will be installed elsewhere.
+## method will be installed elsewhere. Sometimes (and hopefull more in the 
+## future) we work with a non-trivial StabilizerSubgroup(G). 
      InstallMethod(AmbientCosetTree,
      "Constructs a coset tree for a generic congruence subgroup (slow method)",
      [ IsHAPCongruenceSubgroup ],
@@ -374,8 +382,8 @@ InstallMethod( IsSubset,
 ##
 ## AmbientTransversal( <G> )
 ##
-## returns a transversal for G in the ambient group GG.
-## The method will invoke AmbientCosetTree if StabilizerSubgroup(G)=1.
+## returns a transversal for a generic congruence subgroup G in the ambient 
+## group GG. The method will invoke AmbientCosetTree if StabilizerSubgroup(G)=1.
      InstallMethod(AmbientTransversal,
      "returns a transversal for G in the ambient group (slow method)",
      [ IsHAPCongruenceSubgroup ],
@@ -389,6 +397,7 @@ InstallMethod( IsSubset,
      if Size(StabilizerSubgroup(G))=1 then
          AmbientCosetTree(G);
          nodes:=G!.nodes;
+         poscan:=function(g) return G!.CosetPosFunction(g); end;
 
      else
      ################################################################
@@ -430,10 +439,6 @@ InstallMethod( IsSubset,
      od;
      #####################################################
      
-     ################################################################
-     ################################################################
-     fi;
-
      nodesinv:=List(nodes,g->g^-1);
 
      ####################################################
@@ -445,8 +450,12 @@ InstallMethod( IsSubset,
      end;
      ####################################################
 
+     ################################################################
+     ################################################################
+     fi;
+
      return Objectify( NewType( FamilyObj( GG ),
-                    IsHapRightTransversalSL2ZSubgroup and IsList and
+                    IsHAPRightTransversalCongruenceSubgroup and IsList and
                     IsDuplicateFreeList and IsAttributeStoringRep ),
           rec( group := GG,
                subgroup := G,
@@ -458,18 +467,45 @@ InstallMethod( IsSubset,
 ##
 ## RightTransversal( <GG> , <G> )
 ##
-## returns a right transversal of a generic congruence subgroup in its ambinet
+## returns a right transversal of a generic congruence subgroup in its ambient
 ## group
      InstallMethod(RightTransversal,
      "right transversal of a congruence subgroup in its ambient group",
      [ IsMatrixGroup , IsHAPCongruenceSubgroup ],
      function(GG,G)
+     local T, poscan, Tinv;
      if GG=AmbientGroupOfCongruenceSubgroup(G) then
         return AmbientTransversal(G);
      fi;
+ 
+     if not IsHAPCongruenceSubgroup(GG) then
+         TryNextMethod();
+     fi;
      
-     TryNextMethod();
+     T:=AmbientTransversal(G);
+     T:=Filtered(T!.cosets, x->GG!.ambientMembership(x));
+     Tinv:=List(T, x->x^-1);
 
+     ########################
+     poscan:=function(g)
+     local i;
+     #gg:=g^-1;     
+     for i in [1..Length(T)] do
+         #if T[i]*gg in G then return i; fi;
+         if g*Tinv[i] in G then return i; fi;
+     od;
+     end;
+     ########################
+
+     return 
+     Objectify( NewType( FamilyObj( AmbientGroupOfCongruenceSubgroup(GG) ),
+                IsHAPRightTransversalCongruenceSubgroup and IsList and
+                IsDuplicateFreeList and IsAttributeStoringRep ),
+          rec( group := GG,
+               subgroup := G,
+               cosets:=T,
+               poscan:=poscan ));
+     
      end);
 
 ##########################################################################
@@ -478,7 +514,7 @@ InstallMethod( IsSubset,
 ##
 ## Returns a tree representing the cosets of G in the ambient group GG.
      InstallMethod(AmbientCosetTree,
-     "Constructs a coset tree for a congruence subgroup in the ambient group, and uses it to obtain a generating set",
+     "Constructs a coset tree for a congruence subgroup in the ambient group, and uses it to obtain a generating set (faster method)",
      [ IsHAPCongruenceSubgroup and HasCosetPosFunction and HasCosetRepFunction ],
      function(G)
      local GG, ambientGenerators, tree,InGmodU,Ugrp,U,v,p,g,s,n,q,vv,
@@ -488,7 +524,6 @@ InstallMethod( IsSubset,
 
         if DimensionOfMatrixGroup(G)>2 then TryNextMethod(); fi;
         n:=LevelOfCongruenceSubgroup(G);
-        #if not IsPrime(n) then TryNextMethod(); fi;
 
      GG:=AmbientGroupOfCongruenceSubgroup(G);
      ambientGenerators:=GeneratorsOfGroup(GG);
@@ -641,9 +676,74 @@ InstallMethod( IsSubset,
 ##
 ## index of congruence subgroup in ambient group 
      InstallMethod(IndexInAmbientGroup,
-     "index of Gamma0(n) in SL(2,Z)",
+     "index of Gamma0(n) in ambient",
      [ IsHAPCongruenceSubgroup ],
      function(G)
      return Length(AmbientTransversal(G));
+     end);
+
+##########################################################################
+##
+## Length( T )
+##
+## length of a right transversal of congruence subgroups
+     InstallOtherMethod(Length, 
+     "length of a transversal",
+     [IsHAPRightTransversalCongruenceSubgroup],
+     function(T)
+     return Length(T!.cosets);
+     end);
+
+##########################################################################
+##
+     InstallOtherMethod(PositionCanonical,
+     "for HapRightTransversals of subrougs ",
+     [IsHAPRightTransversalCongruenceSubgroup,IsObject],
+     function(R,x)
+     return R!.poscan(x);
+     end);
+
+##########################################################################
+##
+     InstallOtherMethod(ELM_LIST,
+     "for HAPRightTransversalCongruenceSubgroup",
+     [IsHAPRightTransversalCongruenceSubgroup,IsInt],
+     function(R,i)
+     return R!.cosets[i];
+     end);
+
+##########################################################################
+##
+## CosetPosFunction( <G> )
+##
+     InstallOtherMethod(CosetPosFunction,
+     "for a generic congruence subgroup (slow method via ambient tree)",
+     [ IsHAPCongruenceSubgroup ],
+     function(G)
+     local cosetPos, nodesinv;
+     nodesinv:=List(G!.nodes,g->g^-1);
+     ###################################################
+     cosetPos:=function(x) 
+     local i;
+     for i in [1..Length(nodesinv)] do
+        if G!.ambientMembership(  x*nodesinv[i]  ) then return i; fi;
+     od;
+     end;
+     ####################################################
+     return cosetPos;
+     end);
+
+##########################################################################
+##
+## CosetRepFunction( <G> )
+##
+     InstallOtherMethod(CosetRepFunction,
+     "for a generic congruence subgroup (slow method via ambient tree)",
+     [ IsHAPCongruenceSubgroup ],
+     function(G)
+     local cosetRep,T;
+     T:=AmbientTransversal(G);
+     cosetRep:=function(g) return T[T!.poscan(g)]  ; end;
+     return cosetRep;
      end);
 
