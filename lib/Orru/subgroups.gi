@@ -124,7 +124,7 @@ function(n,m)
         G!.index := m*Product(List(SSortedList(Factors(m)), p->1+1/p));
     fi;
 
-    ProjLine := FiniteProjectiveLine(m);
+    ProjLine := FiniteProjectiveLine_alt(m);
     CosetPos := function(g)
         local v, vv, U, u, w;
         v := [g[1][1], g[2][1]];
@@ -306,7 +306,7 @@ function(G,H)
         TryNextMethod();
     fi;
 
-    HAPCongruenceSubgroupTree(H);
+    #HAPCongruenceSubgroupTree(H);
 
     return HAP_TransversalCongruenceSubgroupInAmbientGroup(G,H);
 end);

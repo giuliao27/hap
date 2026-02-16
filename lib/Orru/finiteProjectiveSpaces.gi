@@ -20,6 +20,12 @@ return HAP_FiniteProjectivePlaneIntegers(n);
 end);
 ########################################################
 ########################################################
+InstallMethod(FiniteProjectiveLine_alt,
+"Finite projective line for the ring Z/nZ",
+[IsInt],
+function(n)
+return HAP_FiniteProjectiveLineIntegers_alt(n);
+end);
 
 
 

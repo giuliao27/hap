@@ -3,6 +3,7 @@ IsHapRightTransversalSL3ZSubgroup:=NewFilter("IsHapRightTransversalSL3ZSubgroup"
 DeclareGlobalFunction("HAP_GenericCongruenceSubgroup");
 DeclareOperation("FiniteProjectiveLine",[IsInt]);
 DeclareOperation("FiniteProjectivePlane",[IsInt]);
+DeclareOperation("FiniteProjectiveLine_alt",[IsInt]);
 DeclareGlobalFunction("HAP_FiniteProjectiveLineIntegers");
 DeclareGlobalFunction("HAP_FiniteProjectiveLineIntegers_alt");
 DeclareGlobalFunction("HAP_FiniteProjectivePlaneIntegers");
