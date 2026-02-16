@@ -71,11 +71,11 @@ end);
 
 ###################################################################
 ###################################################################
-InstallMethod( HAPCongruenceSubgroupGamma0,
+InstallMethod( HAPCongruenceSubgroupGamma0_alt,
 "for integer n and integer m",
 [IsInt, IsInt],
 function(n,m)
-    local G, sl, membership, membershipLight, CosetRep, CosetPos, ProjLine,
+    local G, sl, membership, membershipLight, CosetRep, CanonicalRep, CosetPos, ProjLine,
     CosetOfInt, S, T, U;
     if not (n=2 and m>0) then TryNextMethod(); fi;
 
@@ -137,9 +137,11 @@ function(n,m)
             fi;
         od;
     end;
+
 #    CosetRep := function(i)   #Should input a group element
+
     CosetOfInt := function(i)
-    local a, c, b, d, gg;
+        local a, c, b, d, gg;
         a := ProjLine.Reps[i][1];
         c := ProjLine.Reps[i][2];
         if a = 0 then
@@ -167,6 +169,113 @@ function(n,m)
     return G;
 end);
 ###################################################################
+#NEW
+InstallMethod( HAPCongruenceSubgroupGamma0,
+"for integer n and integer m",
+[IsInt, IsInt],
+function(n,m)
+    local G, sl, membership, membershipLight, CosetRep, CanonicalRep, CosetPos, ProjLine, CosetOfInt, S, T, U;
+    if not (n=2 and m>0) then TryNextMethod(); fi;
+
+    #The following implements G=Gamm0(m) < SL(2,Z)
+
+    sl := SL(2,Integers);
+    G := HAP_GenericCongruenceSubgroup("SL",2,Integers,m);
+
+    ###################################################
+    membership:=function(g)
+        if not g in sl then
+            return false;
+        fi;
+        if not g[2][1] mod m = 0  then
+            return false;
+        else
+            return true;
+        fi;
+    end;
+    ###################################################
+    ###################################################
+    membershipLight:=function(g)
+        if not g[2][1] mod m = 0 then
+            return false;
+        else
+            return true;
+        fi;
+    end;
+    ###################################################
+    ####################
+    S:=[[0,-1],[1,0]];;
+    T:=[[1,1],[0,1]];
+    U:=S*T;
+    ####################
+
+
+    G!.membership := membership;
+    G!.membershipLight := membershipLight;
+    G!.level := m;
+
+    G!.ugrp := Group([[1,0],[0,1]]);
+    G!.name := "CongruenceSubgroupGamma0";
+    if m = 1 then
+        G!.index := m;
+    else
+        G!.index := m*Product(List(SSortedList(Factors(m)), p->1+1/p));
+    fi;
+
+    ProjLine := FiniteProjectiveLine(m);
+
+    CanonicalRep := function(g)
+        local v, vv, U, d, dd;
+        v := [g[1][1], g[2][1]];
+        vv := List(v, x -> x mod m);
+        U := Units(Integers mod m);
+        if vv[1] mod m = 0 then
+            return [0,1];
+        elif ZmodnZObj(vv[1],m) in U then
+            return [1,(Inverse(vv[1]) mod m)*vv[2] mod m];
+        else
+            d := Gcd(vv[1],m);
+            dd := m/d;
+            return [vv[1], vv[2] mod dd];
+        fi;
+    end;
+
+    CosetPos := function(g)
+        local w;
+        w := CanonicalRep(g);
+        return Position(ProjLine,w);
+    end;
+
+#    CosetRep := function(i)   #Should input a group element
+
+    CosetOfInt := function(i)
+    local a, c, b, d, gg;
+        a := ProjLine[i][1];
+        c := ProjLine[i][2];
+        if a = 0 then
+            return [[0,-1],[1,0]];
+        fi;
+        gg := Gcdex(a,c);
+        b := -gg.coeff2;
+        d :=  gg.coeff1;
+        return [[a,b],[c,d]];
+    end;
+
+    CosetRep:=function(g);
+        return CosetOfInt(CosetPos(g));
+    end;
+
+    G!.cosetRep := CosetRep;   
+    G!.cosetPos := CosetPos;   
+    G!.ambientGenerators:=[S,S*U];
+    G!.transversal:=List([1..Length(ProjLine)],i->CosetOfInt(i)^-1);
+
+    G := ObjectifyWithAttributes(G, TypeObj(G),
+        IsIntegerMatrixGroup, true,
+        IsFinite, false);
+
+    return G;
+end);
 ###################################################################
 
 ###################################################################

@@ -4,9 +4,11 @@ DeclareGlobalFunction("HAP_GenericCongruenceSubgroup");
 DeclareOperation("FiniteProjectiveLine",[IsInt]);
 DeclareOperation("FiniteProjectivePlane",[IsInt]);
 DeclareGlobalFunction("HAP_FiniteProjectiveLineIntegers");
+DeclareGlobalFunction("HAP_FiniteProjectiveLineIntegers_alt");
 DeclareGlobalFunction("HAP_FiniteProjectivePlaneIntegers");
 DeclareGlobalFunction("HAP_SL3ZSubgroupTree_fast");
 DeclareOperation("HAPCongruenceSubgroupGamma0",[IsInt,IsInt]);
+DeclareOperation("HAPCongruenceSubgroupGamma0_alt",[IsInt,IsInt]);
 DeclareOperation("HAPCongruenceSubgroupTree",[IsHapCongruenceSubgroup]);
 DeclareGlobalFunction("Gamma0_SL3ZTopRationalHomology");
 
