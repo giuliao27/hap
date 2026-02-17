@@ -24,6 +24,7 @@ InstallMethod( CongruenceSubgroupGamma0, "for integer matrix group and positive 
       OneImmutable, One(GG),
       IsIntegerMatrixGroup, IsIntegerMatrixGroup(GG),
       IsFinite, IsFinite(GG),
+      StabilizerSubgroup, Group(One(GG)),
       LevelOfCongruenceSubgroup, n,
           IsHAPPrincipalCongruenceSubgroup, false,
       IsHAPCongruenceSubgroupGamma0, true,  
@@ -88,7 +89,7 @@ InstallMethod( CongruenceSubgroupGamma0, "for integer matrix group and positive 
     ###################################################
     fi;
 
-    if DimensionOfMatrixGroup(GG)=4 then
+    if DimensionOfMatrixGroup(GG)>4 then
     Print("Gamma0 not yet implemented for matrices of dimension >4.\n");
     return fail;
     fi;
@@ -232,6 +233,7 @@ InstallMethod( IsSubset,
 ## StabilizerSubgroup( <G> )
 ##
 ## Stabilizer subgroup for PrincipalGamma is chosen to be the identity group
+## except in the 2x2 case.
      InstallMethod(StabilizerSubgroup,
      "Stabilizer subgroup of Gamma(n) in SL(n,Z)",
      [ IsIntegerMatrixGroup and IsHAPPrincipalCongruenceSubgroup ],
@@ -253,13 +255,18 @@ InstallMethod( IsSubset,
 
 ##########################################################################
 ##
-## AmbientCosetTree( <G> )
+## AmbientTree( <G> )
 ##
 ## Returns a tree representing the cosets of G in the ambient group GG. This
 ## method assumes very little of G. For specific cases of interest a faster 
-## method will be installed elsewhere. Sometimes (and hopefull more in the 
-## future) we work with a non-trivial StabilizerSubgroup(G). 
-     InstallMethod(AmbientCosetTree,
+## method will be installed elsewhere. For the principal congruence group in
+## SL(2,Z) we work with a non-trivial Stabilizer in order to produce a free
+## generating set (and the tree is thus not quite a coset tree). This is 
+## currently the only case where we use non-trivial stabilizer, though other 
+## SL(2,Z) cases should really be "upgraded" to non-trivial stabilizer. Due
+## to potentially non-trivial stabilizers we have to distinguish between 
+## ambient trees and ambient transversals. 
+     InstallMethod(AmbientTree,
      "Constructs a coset tree for a generic congruence subgroup (slow method)",
      [ IsHAPCongruenceSubgroup ],
      function(G)
@@ -374,7 +381,7 @@ InstallMethod( IsSubset,
      "Generators of a congruence subgroup",
      [ IsHAPCongruenceSubgroup ],
      function(G)
-     AmbientCosetTree(G);
+     AmbientTree(G);
      return GeneratorsOfMagmaWithInverses(G);
      end);
 
@@ -383,7 +390,7 @@ InstallMethod( IsSubset,
 ## AmbientTransversal( <G> )
 ##
 ## returns a transversal for a generic congruence subgroup G in the ambient 
-## group GG. The method will invoke AmbientCosetTree if StabilizerSubgroup(G)=1.
+## group GG. The method will invoke AmbientTree if StabilizerSubgroup(G)=1.
      InstallMethod(AmbientTransversal,
      "returns a transversal for G in the ambient group (slow method)",
      [ IsHAPCongruenceSubgroup ],
@@ -395,9 +402,9 @@ InstallMethod( IsSubset,
      GG:=AmbientGroupOfCongruenceSubgroup(G);
 
      if Size(StabilizerSubgroup(G))=1 then
-         AmbientCosetTree(G);
+         AmbientTree(G);
          nodes:=G!.nodes;
-         poscan:=function(g) return G!.CosetPosFunction(g); end;
+         #poscan:=function(g) return G!.CosetPosFunction(g); end;
 
      else
      ################################################################
@@ -438,6 +445,7 @@ InstallMethod( IsSubset,
      RemoveDictionary(leaves,v);
      od;
      #####################################################
+     fi;
      
      nodesinv:=List(nodes,g->g^-1);
 
@@ -452,7 +460,7 @@ InstallMethod( IsSubset,
 
      ################################################################
      ################################################################
-     fi;
+     
 
      return Objectify( NewType( FamilyObj( GG ),
                     IsHAPRightTransversalCongruenceSubgroup and IsList and
@@ -510,10 +518,10 @@ InstallMethod( IsSubset,
 
 ##########################################################################
 ##
-## AmbientCosetTree( <G> )
+## AmbientTree( <G> )
 ##
 ## Returns a tree representing the cosets of G in the ambient group GG.
-     InstallMethod(AmbientCosetTree,
+     InstallMethod(AmbientTree,
      "Constructs a coset tree for a congruence subgroup in the ambient group, and uses it to obtain a generating set (faster method)",
      [ IsHAPCongruenceSubgroup and HasCosetPosFunction and HasCosetRepFunction ],
      function(G)
@@ -746,4 +754,31 @@ InstallMethod( IsSubset,
      cosetRep:=function(g) return T[T!.poscan(g)]  ; end;
      return cosetRep;
      end);
+
+############################################################################
+##
+## AmbientTreeDisplay( G )
+##
+## Display the ambient tree.
+     InstallGlobalFunction(AmbientTreeDisplay,
+     function(G)
+     local A, T, i, j,L;
+     T:=AmbientTree(G);
+     A:=0*IdentityMat(Length(T));;
+     for i in [1..Length(T)] do
+         if IsBound(T[i]) then
+             A[i][T[i][1]]:=1;
+             A[T[i][1]][i]:=1;
+         fi;
+     od;
+     L:=Filtered([1..Length(A)],i-> not IsZero(A[i]));
+     A:=A{L};
+     A:=TransposedMat(A)*1;
+     A:=A{L};
+
+     A:=IncidenceMatrixToGraph(A);
+     GraphDisplay(A);
+     end);
+###################################################################
+###################################################################
 
