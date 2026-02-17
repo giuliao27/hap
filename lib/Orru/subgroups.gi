@@ -124,7 +124,7 @@ function(n,m)
         G!.index := m*Product(List(SSortedList(Factors(m)), p->1+1/p));
     fi;
 
-    ProjLine := FiniteProjectiveLine(m);
+    ProjLine := FiniteProjectiveLine_alt(m);
     CosetPos := function(g)
         local v, vv, U, u, w;
         v := [g[1][1], g[2][1]];
@@ -225,7 +225,7 @@ function(n,m)
     ProjLine := FiniteProjectiveLine(m);
 
     CanonicalRep := function(g)
-        local v, vv, U, d, dd;
+        local v, vv, U, d, dd, x, y;
         v := [g[1][1], g[2][1]];
         vv := List(v, x -> x mod m);
         U := Units(Integers mod m);
@@ -236,7 +236,12 @@ function(n,m)
         else
             d := Gcd(vv[1],m);
             dd := m/d;
-            return [vv[1], vv[2] mod dd];
+            x := vv[1]/d;
+            y := vv[2]/x mod dd;
+            while not Gcd(d,y) = 1 do
+                y := y + dd;
+            od;
+            return [d, y];
         fi;
     end;
 
@@ -306,7 +311,7 @@ function(G,H)
         TryNextMethod();
     fi;
 
-    HAPCongruenceSubgroupTree(H);
+    #HAPCongruenceSubgroupTree(H);
 
     return HAP_TransversalCongruenceSubgroupInAmbientGroup(G,H);
 end);
