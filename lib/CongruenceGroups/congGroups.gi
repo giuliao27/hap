@@ -404,7 +404,7 @@ InstallMethod( IsSubset,
      if Size(StabilizerSubgroup(G))=1 then
          AmbientTree(G);
          nodes:=G!.nodes;
-         #poscan:=function(g) return G!.CosetPosFunction(g); end;
+         poscan:=CosetPosFunction(G); 
 
      else
      ################################################################
@@ -445,19 +445,19 @@ InstallMethod( IsSubset,
      RemoveDictionary(leaves,v);
      od;
      #####################################################
-     fi;
+     #fi;
      
      nodesinv:=List(nodes,g->g^-1);
 
      ####################################################
      poscan:=function(x)
      local i;
-     for i in [1..Length(nodes)] do
+     for i in [1..Length(nodesinv)] do
         if G!.ambientMembership(  x*nodesinv[i]  ) then return i; fi;
      od;
      end;
      ####################################################
-
+     fi;
      ################################################################
      ################################################################
      
@@ -729,6 +729,7 @@ InstallMethod( IsSubset,
      [ IsHAPCongruenceSubgroup ],
      function(G)
      local cosetPos, nodesinv;
+
      nodesinv:=List(G!.nodes,g->g^-1);
      ###################################################
      cosetPos:=function(x) 
