@@ -28,7 +28,8 @@ InstallMethod( CongruenceSubgroupGamma0, "for integer matrix group and positive 
       LevelOfCongruenceSubgroup, n,
           IsHAPPrincipalCongruenceSubgroup, false,
       IsHAPCongruenceSubgroupGamma0, true,  
-      IsHAPCongruenceSubgroupGamma1, false 
+      IsHAPCongruenceSubgroupGamma1, false,
+      IsHAPConjugatedCongruenceSubgroup, false 
       );
      if GG=SL(2,Integers) then
              S:=[[0,-1],[1,0]];; T:=[[1,1],[0,1]]; U:=S*T;
@@ -133,7 +134,8 @@ InstallMethod( PrincipalCongruenceSubgroup,
       LevelOfCongruenceSubgroup, n,
       IsHAPPrincipalCongruenceSubgroup, true,
       IsHAPCongruenceSubgroupGamma0, false,
-      IsHAPCongruenceSubgroupGamma1, false
+      IsHAPCongruenceSubgroupGamma1, false,
+      IsHAPConjugatedCongruenceSubgroup, false
       );
      if GG=SL(2,Integers) then
              S:=[[0,-1],[1,0]];; T:=[[1,1],[0,1]]; U:=S*T;
@@ -445,7 +447,6 @@ InstallMethod( IsSubset,
      RemoveDictionary(leaves,v);
      od;
      #####################################################
-     #fi;
      
      nodesinv:=List(nodes,g->g^-1);
 

@@ -1,4 +1,3 @@
-abc:=233;
 
 #############################################################################
 ##
@@ -26,6 +25,14 @@ DeclareOperation("CongruenceSubgroupGamma1", [IsMatrixGroup,IsRingElement]);
 ## groups, and declare properties that are used to distinguish several
 ## important classes of congruence subgroups
 DeclareCategory( "IsHAPCongruenceSubgroup", IsMatrixGroup );
+
+#############################################################################
+##
+## IsHAPConjugatedCongruenceSubgroup( <G> )
+##
+## We create a category of congruence subgroups conjugated by a matrix
+DeclareOperation("IsHAPConjugatedCongruenceSubgroup", [IsHAPCongruenceSubgroup]);
+
 
 #############################################################################
 ##
@@ -136,9 +143,16 @@ DeclareAttribute( "CosetRepFunction", IsHAPCongruenceSubgroup );
 ##
 ## AmbientTree( <G> )
 ##
-## returns a tree representing the left cosets of G in the ambient group GG 
+## returns a tree representing the left 'cosets' of G in the ambient group GG 
 ## whose construction depends on the given generating set for GG. 
 DeclareAttribute( "AmbientTree", IsHAPCongruenceSubgroup );
+
+############################################################################
+##
+## AmbientTreeDisplay( <G> )
+##
+## displays the tree associated to the congruence subgroup G
+DeclareGlobalFunction("AmbientTreeDisplay");
 
 ############################################################################
 ##
