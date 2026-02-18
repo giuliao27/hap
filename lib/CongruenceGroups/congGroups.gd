@@ -134,11 +134,11 @@ DeclareAttribute( "CosetRepFunction", IsHAPCongruenceSubgroup );
 
 ############################################################################
 ##
-## AmbientCosetTree( <G> )
+## AmbientTree( <G> )
 ##
 ## returns a tree representing the left cosets of G in the ambient group GG 
 ## whose construction depends on the given generating set for GG. 
-DeclareAttribute( "AmbientCosetTree", IsHAPCongruenceSubgroup );
+DeclareAttribute( "AmbientTree", IsHAPCongruenceSubgroup );
 
 ############################################################################
 ##
