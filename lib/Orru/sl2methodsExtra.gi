@@ -77,3 +77,54 @@ InstallMethod(CosetRepFunction,
 
         return cosetRep;
     end);
+
+    ##########################################################################
+##
+## AmbientTransversal( <G> )
+##
+## Right transversal for a congruence subgroup G in its ambient group GG
+     InstallMethod(AmbientTransversal,
+     "Right transversal for a congruence subgroup G in its ambient group",
+     [ IsIntegerMatrixGroup and IsHAPCongruenceSubgroupGamma0 ],
+     function(G)
+        local n, GG, poscan, cosetPos, transversal, ProjLine, cosetOfInt;
+        if DimensionOfMatrixGroup(G) <> 2 then
+            TryNextMethod();
+        fi;
+
+        n:=LevelOfCongruenceSubgroup(G);
+
+        ProjLine := FiniteProjectiveLine(n);
+        
+        GG:=AmbientGroupOfCongruenceSubgroup(G);
+
+        cosetPos:=CosetPosFunction(G);
+
+        cosetOfInt := function(i)
+            local a, c, b, d, gg;
+            a := ProjLine[i][1];
+            c := ProjLine[i][2];
+            if a = 0 then
+                return [[0,-1],[1,0]];
+            fi;
+            gg := Gcdex(a,c);
+            b := -gg.coeff2;
+            d :=  gg.coeff1;
+            return [[a,b],[c,d]];
+        end;
+
+        poscan := function(g)
+            return cosetPos(g^-1);
+        end;
+
+        transversal := List([1..Length(ProjLine)],i->cosetOfInt(i)^-1);
+
+        return Objectify( NewType( FamilyObj( GG ),
+                    IsHapRightTransversalSL2ZSubgroup and IsList and
+                    IsDuplicateFreeList and IsAttributeStoringRep ),
+                    rec( group := GG,
+                         subgroup := G,
+                         cosets:=transversal,
+                         poscan:=poscan 
+                    ));
+     end);

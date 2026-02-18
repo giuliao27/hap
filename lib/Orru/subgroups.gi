@@ -445,7 +445,7 @@ function(G,H)
         TryNextMethod();
     fi;
 
-    HAPCongruenceSubgroupTree(H);
+    #HAPCongruenceSubgroupTree(H);
 
     return HAP_TransversalCongruenceSubgroupInAmbientGroup(G,H);
 end);

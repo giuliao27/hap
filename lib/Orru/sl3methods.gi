@@ -78,3 +78,53 @@ InstallMethod(CosetRepFunction,
 
         return cosetRep;
      end);
+
+     ##
+## AmbientTransversal( <G> )
+##
+## Right transversal for a congruence subgroup G in its ambient group GG
+InstallMethod(AmbientTransversal,
+"Right transversal for a congruence subgroup G in its ambient group",
+[ IsIntegerMatrixGroup and IsHAPCongruenceSubgroupGamma0 ],
+function(G)
+    local n, GG, poscan, cosetPos, transversal, ProjPlane, cosetOfInt, MatrixInSL3_Hermite;
+
+    if DimensionOfMatrixGroup(G) <> 3 then
+        TryNextMethod();
+    fi;
+
+    n := LevelOfCongruenceSubgroup(G);
+    ProjPlane := FiniteProjectivePlane(n);
+    
+    GG:=AmbientGroupOfCongruenceSubgroup(G);
+    cosetPos:=CosetPosFunction(G);
+
+    MatrixInSL3_Hermite := function(v)
+        local Herm;
+        Herm := HermiteNormalFormIntegerMatTransform([[v[1]],[v[2]],[v[3]]]);
+        return Inverse(Herm!.rowtrans);
+    end;
+
+    cosetOfInt:=function(i)
+        local x,y,z;
+        x := ProjPlane.Reps[i][1];
+        y := ProjPlane.Reps[i][2];
+        z := ProjPlane.Reps[i][3];
+        return MatrixInSL3_Hermite([x,y,z]);
+        end;
+
+    poscan := function(g)
+        return cosetPos(g^-1);
+    end;
+
+    transversal := List([1..Length(ProjPlane.Reps)],i->cosetOfInt(i)^-1);
+
+    return Objectify( NewType( FamilyObj( GG ),
+                IsHapRightTransversalSL2ZSubgroup and IsList and
+                IsDuplicateFreeList and IsAttributeStoringRep ),
+                rec( group := GG,
+                     subgroup := G,
+                     cosets:=transversal,
+                     poscan:=poscan 
+                ));
+end);
