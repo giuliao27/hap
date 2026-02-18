@@ -10,6 +10,10 @@ InstallMethod(CosetPosFunction,
 
         n := LevelOfCongruenceSubgroup(G);
 
+        if IsPrime(n) then
+            TryNextMethod();
+        fi;
+
         ProjLine := FiniteProjectiveLine(n);
 
         canonicalRep := function(g)
@@ -54,6 +58,10 @@ InstallMethod(CosetRepFunction,
 
         n := LevelOfCongruenceSubgroup(G);
 
+        if IsPrime(n) then
+            TryNextMethod();
+        fi;
+
         ProjLine := FiniteProjectiveLine(n);
         
         cosetOfInt := function(i)
@@ -93,6 +101,10 @@ InstallMethod(CosetRepFunction,
         fi;
 
         n:=LevelOfCongruenceSubgroup(G);
+
+        if IsPrime(n) then
+            TryNextMethod();
+        fi;
 
         ProjLine := FiniteProjectiveLine(n);
         
