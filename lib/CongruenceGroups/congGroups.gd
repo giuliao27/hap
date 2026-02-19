@@ -31,7 +31,7 @@ DeclareCategory( "IsHAPCongruenceSubgroup", IsMatrixGroup );
 ## IsHAPConjugatedCongruenceSubgroup( <G> )
 ##
 ## We create a category of congruence subgroups conjugated by a matrix
-DeclareOperation("IsHAPConjugatedCongruenceSubgroup", [IsHAPCongruenceSubgroup]);
+DeclareCategory("IsHAPConjugatedCongruenceSubgroup", IsHAPCongruenceSubgroup);
 
 
 #############################################################################
@@ -154,6 +154,12 @@ DeclareAttribute( "AmbientTree", IsHAPCongruenceSubgroup );
 ## displays the tree associated to the congruence subgroup G
 DeclareGlobalFunction("AmbientTreeDisplay");
 
+############################################################################
+##
+## IntersectionWithConjugate( <G> , m )
+##
+## returns the intersection of a group G with its conjugate G^m
+DeclareOperation( "IntersectionWithConjugate", [ IsHAPCongruenceSubgroup, IsMatrix ]);
 ############################################################################
 ##
 ## 

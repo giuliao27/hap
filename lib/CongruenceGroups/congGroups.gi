@@ -26,7 +26,7 @@ InstallMethod( CongruenceSubgroupGamma0, "for integer matrix group and positive 
       IsFinite, IsFinite(GG),
       StabilizerSubgroup, Group(One(GG)),
       LevelOfCongruenceSubgroup, n,
-          IsHAPPrincipalCongruenceSubgroup, false,
+      IsHAPPrincipalCongruenceSubgroup, false,
       IsHAPCongruenceSubgroupGamma0, true,  
       IsHAPCongruenceSubgroupGamma1, false,
       IsHAPConjugatedCongruenceSubgroup, false 
@@ -781,6 +781,120 @@ InstallMethod( IsSubset,
      A:=IncidenceMatrixToGraph(A);
      GraphDisplay(A);
      end);
-###################################################################
-###################################################################
+
+
+############################################################################
+##
+## IntersectionWithCongugate( <H> , g )
+##
+InstallMethod(IntersectionWithConjugate,
+" returns the intersection of H and H^g ",
+[ IsHAPCongruenceSubgroup, IsMatrix ],
+function(H,g)
+local  type, G, gg, membership, HH, S, U, T;
+
+    type := NewType( FamilyObj([One(H)]),
+                     IsGroup and
+                     IsAttributeStoringRep and
+                     IsFinitelyGeneratedGroup and
+                     IsMatrixGroup and
+                     IsHAPCongruenceSubgroup);
+    G := rec();
+    ObjectifyWithAttributes( G, type,
+      DimensionOfMatrixGroup, DimensionOfMatrixGroup(H),
+      AmbientGroupOfCongruenceSubgroup, AmbientGroupOfCongruenceSubgroup(H),
+      OneImmutable, One(H),
+      IsIntegerMatrixGroup, false,  #it could be integer but mostly it won't be
+      IsFinite, IsFinite(H),
+      StabilizerSubgroup, Group(One(H)),
+      LevelOfCongruenceSubgroup, infinity,  #Think!
+      IsHAPPrincipalCongruenceSubgroup, false,
+      IsHAPCongruenceSubgroupGamma0, false,
+      IsHAPCongruenceSubgroupGamma1, false,
+      IsHAPConjugatedCongruenceSubgroup,true 
+      );
+
+gg:=g^-1;
+
+###################################################
+membership:=function(x)
+if not x in H then return false; fi;
+return x^gg in H;
+end;
+###################################################
+
+HH:=Intersection(H,H^g);
+G!.membership:=membership;
+G!.ambientMembership:=membership;
+
+SetGeneratorsOfMagmaWithInverses(G,GeneratorsOfGroup(HH));
+
+G!.AmbientGroupOfCongruenceSubgroup:= AmbientGroupOfCongruenceSubgroup(H);
+return G;
+
+end);
+
+############################################################################
+##
+## IntersectionW( <H> , <K> )
+##
+InstallOtherMethod(Intersection2,
+" returns the intersection of two congruence subgroups H and K ",
+[ IsHAPCongruenceSubgroup, IsHAPCongruenceSubgroup ],
+function(H,K)
+local  type, G, membership, ambientMembership;
+
+    if DimensionOfMatrixGroup(H)<>DimensionOfMatrixGroup(K) then
+        Print("The matrix groups be be of the same dimension.");
+        return fail;
+    fi; 
+
+    type := NewType( FamilyObj([One(H)]),
+                     IsGroup and
+                     IsAttributeStoringRep and
+                     IsFinitelyGeneratedGroup and
+                     IsMatrixGroup and
+                     IsHAPCongruenceSubgroup);
+    G := rec();
+    ObjectifyWithAttributes( G, type,
+      DimensionOfMatrixGroup, DimensionOfMatrixGroup(H),
+      AmbientGroupOfCongruenceSubgroup, AmbientGroupOfCongruenceSubgroup(H),
+      OneImmutable, One(H),
+      IsIntegerMatrixGroup, IsIntegerMatrixGroup(H) and IsIntegerMatrixGroup(K),  
+      IsFinite, IsFinite(H) or IsFinite(K),
+      StabilizerSubgroup, Group(One(H)),
+      LevelOfCongruenceSubgroup, Lcm(LevelOfCongruenceSubgroup(K),LevelOfCongruenceSubgroup(H)),  
+      IsHAPPrincipalCongruenceSubgroup, false,
+      IsHAPCongruenceSubgroupGamma0, false,
+      IsHAPCongruenceSubgroupGamma1, false,
+      IsHAPConjugatedCongruenceSubgroup,false
+      );
+
+###################################################
+membership:=function(x)
+if not H!.membership(x) then return false; fi;
+if not K!.membership(x) then return false; fi;
+return true;
+end;
+###################################################
+
+###################################################
+ambientMembership:=function(x)
+if not H!.ambientMembership(x) then return false; fi;
+if not K!.ambientMembership(x) then return false; fi;
+return true;
+end;
+###################################################
+
+G!.membership:=membership;
+G!.ambientMembership:=ambientMembership;
+G!.AmbientGroupOfCongruenceSubgroup:= AmbientGroupOfCongruenceSubgroup(H);
+
+AmbientTransversal(G);
+CosetPosFunction(G);
+CosetRepFunction(G);
+
+return G;
+
+end);
 
