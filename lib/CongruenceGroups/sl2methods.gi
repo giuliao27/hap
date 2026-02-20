@@ -55,7 +55,7 @@ InstallMethod(ProjectiveSpace,
      #Now handle case of prime level.
      GG:=AmbientGroupOfCongruenceSubgroup(G);
 
-     cosetPos:=CosetPosFunction(G);
+     cosetPos:=AmbientPosition(G);
      poscan:=function(g) return cosetPos(g^-1); end;
      
      transversal:=List([0..n-1],i->[[1,0],[-i,1]]);
@@ -73,11 +73,11 @@ InstallMethod(ProjectiveSpace,
 
 ##########################################################################
 ##
-## CosetPosFunction( <G> )
+## AmbientPosition( <G> )
 ##
 ## Returns a function cosetPos(g) giving the position of the coset gG in 
 ## the ambient group. 
-     InstallMethod(CosetPosFunction,
+     InstallMethod(AmbientPosition,
      "Returns cosetPos(g) function for the congruence subgroup G",
      [ IsIntegerMatrixGroup and IsHAPCongruenceSubgroupGamma0 ],
      function(G)
@@ -99,11 +99,11 @@ InstallMethod(ProjectiveSpace,
 
 ##########################################################################
 ##
-## CosetRepFunction( <G> )
+## AmbientPosition( <G> )
 ##
 ## Returns a function cosetPos(g) giving a canonical rpresentative of the 
 ## coset gG in the ambient group. 
-     InstallMethod(CosetRepFunction,
+     InstallMethod(AmbientPosition,
      "Returns cosetPos(g) function for the congruence subgroup G",
      [ IsIntegerMatrixGroup and IsHAPCongruenceSubgroupGamma0 ],
      function(G)

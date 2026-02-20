@@ -1,6 +1,6 @@
 # methods for power of primes
 
-InstallMethod(CosetPosFunction,
+InstallMethod(AmbientPosition,
     "Returns cosetPos(g) function for the congruence subgroup G",
     [ IsIntegerMatrixGroup and IsHAPCongruenceSubgroupGamma0 ],
     function(G)
@@ -77,7 +77,7 @@ InstallMethod(CosetPosFunction,
         return cosetPos;
     end);
 
-InstallMethod(CosetPosFunction,
+InstallMethod(AmbientPosition,
     "Returns cosetPos(g) function for the congruence subgroup G",
     [ IsIntegerMatrixGroup and IsHAPCongruenceSubgroupGamma0 ],
     function(G)
@@ -130,7 +130,7 @@ InstallMethod(CosetPosFunction,
         return cosetPos;
     end);
 
-InstallMethod(CosetRepFunction,
+InstallMethod(AmbientRepresentation,
     "Returns cosetPos(g) function for the congruence subgroup G",
     [ IsIntegerMatrixGroup and IsHAPCongruenceSubgroupGamma0 ],
     function(G)
@@ -161,7 +161,7 @@ InstallMethod(CosetRepFunction,
             return [[a,b],[c,d]];
         end;
 
-        cosetPos := CosetPosFunction(G);
+        cosetPos := AmbientPosition(G);
 
         cosetRep:=function(g);
             return cosetOfInt(cosetPos(g));
@@ -194,7 +194,7 @@ InstallMethod(CosetRepFunction,
         
         GG:=AmbientGroupOfCongruenceSubgroup(G);
 
-        cosetPos:=CosetPosFunction(G);
+        cosetPos:=AmbientPosition(G);
 
         cosetOfInt := function(i)
             local a, c, b, d, gg;

@@ -20,11 +20,11 @@ InstallMethod(ProjectiveSpace,
      end);
 ##########################################################################
 ##
-## CosetPosFunction( <G> )
+## AmbientPosition( <G> )
 ##
 ## Returns a function cosetPos(g) giving the position of the coset gG in 
 ## the ambient group. 
-InstallMethod(CosetPosFunction,
+InstallMethod(AmbientPosition,
 "Returns cosetPos(g) function for the congruence subgroup G",
 [ IsIntegerMatrixGroup and IsHAPCongruenceSubgroupGamma0 ],
     function(G)
@@ -54,11 +54,11 @@ InstallMethod(CosetPosFunction,
     end);
 ##########################################################################
 ##
-## CosetRepFunction( <G> )
+## AmbientRepresentation( <G> )
 ##
 ## Returns a function cosetPos(g) giving a canonical rpresentative of the 
 ## coset gG in the ambient group. 
-InstallMethod(CosetRepFunction,
+InstallMethod(AmbientRepresentation,
 "Returns cosetRep(g) function for the congruence subgroup G",
 [ IsIntegerMatrixGroup and IsHAPCongruenceSubgroupGamma0 ],
      function(G)
@@ -86,7 +86,7 @@ InstallMethod(CosetRepFunction,
             return MatrixInSL3_Hermite([x,y,z]);
         end;
 
-        cosetPos := CosetPosFunction(G);
+        cosetPos := AmbientPosition(G);
 
         cosetRep:=function(g);
             return cosetOfInt(cosetPos(g));
@@ -113,7 +113,7 @@ function(G)
     ProjPlane := ProjectiveSpace(G);
     
     GG:=AmbientGroupOfCongruenceSubgroup(G);
-    cosetPos:=CosetPosFunction(G);
+    cosetPos:=AmbientPosition(G);
 
     MatrixInSL3_Hermite := function(v)
         local Herm;

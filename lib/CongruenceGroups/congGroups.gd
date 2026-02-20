@@ -129,21 +129,21 @@ DeclareAttribute( "AmbientTransversal", IsHAPCongruenceSubgroup );
 
 ############################################################################
 ##
-## CosetPosFunction( <G> )
+## AmbientPosition( <G> )
 ##
 ## returns a function cosetPos(g) that inputs an element g in the ambient 
 ## group GG and returns an integer corresponding to the position of the left
 ## coset gG in the lists of cosets of G in GG. 
-DeclareAttribute( "CosetPosFunction", IsHAPCongruenceSubgroup );
+DeclareAttribute( "AmbientPosition", IsHAPCongruenceSubgroup );
 
 ############################################################################
 ##
-## CosetRepFunction( <G> )
+## AmbientRepresentation( <G> )
 ##
 ## returns a function cosetRep(g) that inputs an element g in the ambient 
 ## group GG and returns a canonical representative in the ambient group GG
 ## of the left coset gG. 
-DeclareAttribute( "CosetRepFunction", IsHAPCongruenceSubgroup );
+DeclareAttribute( "AmbientRepresentation", IsHAPCongruenceSubgroup );
 
 ############################################################################
 ##
