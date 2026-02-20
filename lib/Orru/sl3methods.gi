@@ -4,6 +4,22 @@
 
 ##########################################################################
 ##
+## ProjectiveSpace( <G> )
+##
+
+InstallMethod(ProjectiveSpace,
+     "Projective space",
+     [ IsIntegerMatrixGroup and IsHAPCongruenceSubgroupGamma0 ],
+     function(G)
+     local n;
+        if DimensionOfMatrixGroup(G)<>3 then TryNextMethod(); fi;
+
+        n := LevelOfCongruenceSubgroup(G);
+
+        return FiniteProjectivePlane(n);
+     end);
+##########################################################################
+##
 ## CosetPosFunction( <G> )
 ##
 ## Returns a function cosetPos(g) giving the position of the coset gG in 
@@ -19,7 +35,7 @@ InstallMethod(CosetPosFunction,
 
         n := LevelOfCongruenceSubgroup(G);
     
-        ProjPlane := FiniteProjectivePlane(n);
+        ProjPlane := ProjectiveSpace(G);
 
         cosetPos := function(g)
             local v, vv, U, u, w;
@@ -59,7 +75,7 @@ InstallMethod(CosetRepFunction,
             return Inverse(Herm!.rowtrans);
         end;
 
-        ProjPlane := FiniteProjectivePlane(n);
+        ProjPlane := ProjectiveSpace(G);
 
         cosetOfInt:=function(i)
             local x,y,z;
@@ -94,7 +110,7 @@ function(G)
     fi;
 
     n := LevelOfCongruenceSubgroup(G);
-    ProjPlane := FiniteProjectivePlane(n);
+    ProjPlane := ProjectiveSpace(G);
     
     GG:=AmbientGroupOfCongruenceSubgroup(G);
     cosetPos:=CosetPosFunction(G);

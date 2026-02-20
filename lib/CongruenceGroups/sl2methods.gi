@@ -25,6 +25,21 @@
 
 ##########################################################################
 ##
+## ProjectiveSpace( <G> )
+InstallMethod(ProjectiveSpace,
+     "Projective space",
+     [ IsIntegerMatrixGroup and IsHAPCongruenceSubgroupGamma0 ],
+     function(G)
+     local n;
+        if DimensionOfMatrixGroup(G)>2 then TryNextMethod(); fi;
+
+        n := LevelOfCongruenceSubgroup(G);
+
+        return FiniteProjectiveLine(n);
+     end);
+
+##########################################################################
+##
 ## AmbientTransversal( <G> )
 ##
 ## Right transversal for a congruence subgroup G in its ambient group GG

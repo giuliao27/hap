@@ -115,6 +115,12 @@ DeclareAttribute( "StabilizerSubgroup", IsHAPCongruenceSubgroup );
 
 ############################################################################
 ##
+## ProjectiveSpave( <G> )
+##
+DeclareAttribute( "ProjectiveSpace", IsHAPCongruenceSubgroup );
+
+############################################################################
+##
 ## AmbientTransversal( <G> )
 ##
 ## returns a right transversal for the congruence subgroup G in the ambient 
