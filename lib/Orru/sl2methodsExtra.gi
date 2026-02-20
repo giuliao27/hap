@@ -65,8 +65,8 @@ InstallMethod(CosetPosFunction,
             if w[1] = 0 then
                 return 1;
             elif w[1] = 1 then
-                U := Filtered([0..n],i -> Gcd(i,n) = 1);
-                return 2 + Position(U,w[2]);
+                U := [0..n-1];
+                return 1 + Position(U,w[2]);
             else
                 e := Length(Factors(w[1]));
                 U := Filtered([0..n/w[1]], i-> Gcd(i,n/w[1]) = 1);
