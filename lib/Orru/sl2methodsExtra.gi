@@ -2,7 +2,7 @@ InstallMethod(CosetPosFunction,
     "Returns cosetPos(g) function for the congruence subgroup G",
     [ IsIntegerMatrixGroup and IsHAPCongruenceSubgroupGamma0 ],
     function(G)
-        local cosetPos, canonicalRep, n, ProjLine;
+        local cosetPos, canonicalRep, n, ProjLine, U;
 
         if DimensionOfMatrixGroup(G) <> 2 then
             TryNextMethod();
@@ -14,16 +14,17 @@ InstallMethod(CosetPosFunction,
             TryNextMethod();
         fi;
 
-        ProjLine := FiniteProjectiveLine(n);
+        ProjLine := ProjectiveSpace(G);
+
+        U := Filtered([0..n],i -> Gcd(i,n) = 1);
 
         canonicalRep := function(g)
-            local v, vv, U, d, dd, x, y;
+            local v, vv, d, dd, x, y;
             v := [g[1][1], g[2][1]];
             vv := List(v, x -> x mod n);
-            U := Units(Integers mod n);
             if vv[1] mod n = 0 then
                 return [0,1];
-            elif ZmodnZObj(vv[1],n) in U then
+            elif (vv[1] mod n) in U then
                 return [1,(Inverse(vv[1]) mod n)*vv[2] mod n];
             else
                 d := Gcd(vv[1],n);
@@ -62,7 +63,7 @@ InstallMethod(CosetRepFunction,
             TryNextMethod();
         fi;
 
-        ProjLine := FiniteProjectiveLine(n);
+        ProjLine := ProjectiveSpace(G);
         
         cosetOfInt := function(i)
             local a, c, b, d, gg;
@@ -106,7 +107,7 @@ InstallMethod(CosetRepFunction,
             TryNextMethod();
         fi;
 
-        ProjLine := FiniteProjectiveLine(n);
+        ProjLine := ProjectiveSpace(G);
         
         GG:=AmbientGroupOfCongruenceSubgroup(G);
 

@@ -101,6 +101,7 @@ InstallMethod( CongruenceSubgroupGamma0, "for integer matrix group and positive 
     ##################################################
     ##
     ## Remaining components to be computed in other functions.
+    ProjectiveSpace(G);
     AmbientTransversal(G);
     CosetPosFunction(G); #A generic method will be used to construct the
     CosetRepFunction(G); #these two functions except for cases with a
