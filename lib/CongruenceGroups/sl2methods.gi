@@ -99,11 +99,11 @@ InstallMethod(ProjectiveSpace,
 
 ##########################################################################
 ##
-## AmbientPosition( <G> )
+## AmbientRepresentation( <G> )
 ##
 ## Returns a function cosetPos(g) giving a canonical rpresentative of the 
 ## coset gG in the ambient group. 
-     InstallMethod(AmbientPosition,
+     InstallMethod(AmbientRepresentation,
      "Returns cosetPos(g) function for the congruence subgroup G",
      [ IsIntegerMatrixGroup and IsHAPCongruenceSubgroupGamma0 ],
      function(G)
